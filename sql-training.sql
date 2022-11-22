@@ -223,25 +223,43 @@ select * from employee e ;
 select organization , sum(salary) from employee group by organization ;
 
 #find count of employee from each city
-select address , count(name) from employee group by address;
+select address , count(name) as employee_count from employee group by address;
 
-#Having vs Where
+select address , count(name) as employee_count from employee group by address having  count(name)<5;
+
+# where vs having 
+
 
 #*******************Order By************************************
+#Natural sorting algo -ascending
+
 #order by asc /desc 
+select * from employee e order by name ;
+
+select * from employee e order by address ASC;
+
+select * from employee e order by address  desc;
+
 #order by multi column
-#SELECT * FROM customers  
-#ORDER BY country, Customer-Name;  
+select * from employee e order by name ,address;
 
-
-
-#order By
 
 #update
-#UPDATE table_name  
-#SET column_name = expression  
-#WHERE conditions  
+	
+update employee set address ='Kolhapur' where id=7;
+
+select * from employee e where id=7;
+
+select * from employee e ;
+
+update employee set phone_number ='9874589645' where id=4 and name ='Neha sharma';
+
 #Delete
+delete  from employee where id=10;
+
+select * from employee e ;
+ 
+# delete  from employee; 
 
 
 #String function 
