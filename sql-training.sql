@@ -158,22 +158,95 @@ select ceil (salary) from employee;
 #floor - 80
 #ceil - 81
 
-
-# select clouse
 #where
-#in
-#null 
-#multi table 
 
-#and 
-#or 
-#with 
-#as
-#having
+#select column_names from table_name where [condition]
+
+# = , < , > , <= , >= , <>    [conditional - operators] 
+
+select * from employee where id=2;
+
+select * from employee where salary <30000;
+
+select * from employee where salary >30000;
+
+select * from employee where salary <=30000;
+
+select * from employee where salary >=30000;
+
+select * from employee where salary <> 30000;
+
+# and , or , in , as
+
+#****************************AND /OR **********************************************************
+
+select * from employee where salary >30000 and address ='Mumbai';
+
+# find the list of Amazon employees whose salary is less than 30000 
+select * from employee where salary <30000 and organization ='Amazon';
+
+# find the list of Amazon employees whose salary is less than 30000 and working is STAFF department 
+select * from employee where salary <30000 and organization ='Amazon' and dept='STAFF';
+
+## find the list of Amazon employees whose salary is less than 30000 and working is IT department
+select * from employee where salary <30000 and organization ='Amazon' and dept='IT';
+
+
+# find the list of  employees whose salary is less than 30000 or working with Amazon 
+select * from employee where salary <30000 or organization ='Amazon';
+
+# find the list of  employees whose salary is less than 30000 or working with Amazon or department is staff
+select * from employee where salary <30000 or organization ='Amazon' or dept='STAFF';
+
+# find the list of  employees whose salary is less than 30000 and working department is HR or IT 
+select * from employee where salary <30000 and dept =('HR' or  'IT');
+
+# find the list of  employees whose salary is greater than 30000 and working with Amazon Or Google 
+select * from employee where salary >30000 and organization =('Amazon' or 'Google');
+
+
+
+#************** in**************************************
+#find the list of employees working in Amazon Google Microsoft
+select * from employee where organization='Amazon';
+
+select * from employee where organization =('Amazon' and 'Google' and 'Microsoft');
+
+select * from employee where organization in ('Amazon' , 'Google' , 'Microsoft');
+
+select * from employee where organization in ( 'Google');
+
+#***************** Group By ********************************
+select * from employee e ;
+
+#find how much total salary is paying by each company
+select organization , sum(salary) from employee group by organization ;
+
+#find count of employee from each city
+select address , count(name) from employee group by address;
+
+#Having vs Where
+
+#*******************Order By************************************
+#order by asc /desc 
+#order by multi column
+#SELECT * FROM customers  
+#ORDER BY country, Customer-Name;  
+
 
 
 #order By
 
 #update
-
+#UPDATE table_name  
+#SET column_name = expression  
+#WHERE conditions  
 #Delete
+
+
+#String function 
+#Constraints
+#joins
+#sql injection
+#SELECT * from EMPLOYEE where id=100 or   1=1  
+
