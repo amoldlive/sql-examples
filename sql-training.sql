@@ -262,8 +262,141 @@ select * from employee e ;
 # delete  from employee; 
 
 
-#String function 
+#show DB
+show databases;
+
+#Show Table
+show tables;
+
+# Show Column
+show columns from employee; 
+
+#desc Table
+desc employee ;
+
+#constraints 
+/*
+ * Not null
+ * unique
+ * primary key 
+ * default
+ * */
+
+
+#Person Table
+create table person(
+	firstName varchar(20),
+	lastName varchar(20),
+	age int
+);
+
+select * from person;
+
+insert into person values('virat','kohli',40);
+
+#multi insert
+insert into person values
+('virat','kohli',40),
+('Rahul','vaidya',70),
+('dinesh','karti',89);
+
+
+insert into person(firstName,lastName) values('Soham','shah');
+
+select * from person;
+
+
+drop table person;
+
+create table person(
+	id int not null,
+	firstName varchar(20) not null,
+	lastName varchar(20) not null,
+	age int not null
+);
+
+insert into person(id , firstName,lastName) values(1,'Soham','shah');
+
+insert into person values(1,'virat','kohli',40);
+
+select * from person;
+
+desc person;
+
+
+
+insert into person values(1,'virat','kohli',40);
+
+insert into person values(1,'virat','kohli',40);
+
+insert into person values(1,'virat','kohli',40);
+
+insert into person values(1,'virat','kohli',40);
+
+
+#id
+
+drop table person;
+
+create table person(
+	id int not null unique,
+	firstName varchar(20) not null,
+	lastName varchar(20) not null,
+	age int not null
+);
+
+
+insert into person values(1,'virat','kohli',40);
+
+insert into person values(1,'virat','kohli',40);
+
+insert into person values(2,'virat','kohli',40);
+
+select * from person;
+
+desc person;
+
+
+# primary key ->  not null + unique
+
+
+drop table person;
+
+create table person(
+	id int primary key,
+	firstName varchar(20) not null,
+	lastName varchar(20) not null,
+	age int not null
+);
+
+insert into person values(1,'virat','kohli',40);
+
+insert into person values(1,'virat','kohli',40);
+
+insert into person values(2,'virat','kohli',40);
+
+select * from person;
+
+
+drop table person;
+
+create table person(
+	id int primary key,
+	firstName varchar(20) not null,
+	lastName varchar(20) not null,
+	age int not null default 20
+);
+
+insert into person(id,firstName,lastName) values(2,'virat','kohli');
+
+select * from person;
+
+
+#MultiInsert
 #Constraints
+
+
+#String function 
 #joins
 #sql injection
 #SELECT * from EMPLOYEE where id=100 or   1=1  
