@@ -267,3 +267,156 @@ select * from employee ;
  * 
  */*
 
+#distinct - find unique values
+select organization  from employee ;
+
+select distinct organization from employee;
+
+select distinct dept from employee;
+
+#Aggregate functions
+
+#count  get count of the data
+select count(*) from employee ;
+
+select count(id) from employee ;
+
+select * from employee;
+
+select sum(salary) from employee;
+
+select min(salary) from employee;
+
+select max(salary) from employee;
+
+select floor(salary) from employee;
+
+select ceil (salary) from employee;
+
+select avg(salary) from employee;
+
+#80.6
+#floor - 80
+#ceil - 81
+
+#https://dev.mysql.com/doc/refman/8.0/en/aggregate-functions.html
+
+
+#Clouse
+	/*
+	 * Where 
+	 * group by
+	 * having
+	 * order by
+	 */*
+
+#where -> filteration 
+
+#select column_names from table_name where [condition]
+
+# = , < , > , <= , >= , <> , !=   [conditional - operators] 
+
+select * from employee where id=2;
+
+select * from employee where salary <30000;
+
+select * from employee where salary >30000;
+
+select * from employee where salary <=30000;
+
+select * from employee where salary >=30000;
+
+#Not Equal To
+select * from employee where salary <> 30000;
+
+#Not Equal To
+
+select * from employee where salary != 30000;
+	 
+#Limit
+SELECT * FROM employee  LIMIT 1;
+
+SELECT name FROM employee e  LIMIT 3;
+
+SELECT name,salary FROM employee e  LIMIT 3;
+
+ 
+ #Like
+SELECT * FROM employee
+WHERE author_fname LIKE '_a_';
+
+SELECT title, author_fname, author_lname, pages 
+FROM books
+WHERE author_fname LIKE '%da%';
+ 
+SELECT title, author_fname, author_lname, pages 
+FROM books
+WHERE title LIKE '%:%';
+ 
+SELECT * FROM books
+WHERE author_fname LIKE '____';
+ 
+
+-- To select books with '%' in their title:
+SELECT * FROM books
+WHERE title LIKE '%\%%';
+ 
+-- To select books with an underscore '_' in title:
+SELECT * FROM books
+WHERE title LIKE '%\_%';
+
+
+
+# and , or , in , as
+
+#****************************AND /OR **********************************************************
+
+select * from employee where salary >30000 and address ='Mumbai';
+
+# find the list of Amazon employees whose salary is less than 30000 
+select * from employee where salary <30000 and organization ='Amazon';
+
+# find the list of Amazon employees whose salary is less than 30000 and working is STAFF department 
+select * from employee where salary <30000 and organization ='Amazon' and dept='STAFF';
+
+## find the list of Amazon employees whose salary is less than 30000 and working is IT department
+select * from employee where salary <30000 and organization ='Amazon' and dept='IT';
+
+
+# find the list of  employees whose salary is less than 30000 or working with Amazon 
+select * from employee where salary <30000 or organization ='Amazon';
+
+# find the list of  employees whose salary is less than 30000 or working with Amazon or department is staff
+select * from employee where salary <30000 or organization ='Amazon' or dept='STAFF';
+
+# find the list of  employees whose salary is less than 30000 and working department is HR or IT 
+select * from employee where salary <30000 and dept =('HR' or  'IT');
+
+# find the list of  employees whose salary is greater than 30000 and working with Amazon Or Google 
+select * from employee where salary >30000 and organization =('Amazon' or 'Google');
+
+
+
+#************** in**************************************
+#find the list of employees working in Amazon Google Microsoft
+select * from employee where organization='Amazon';
+
+select * from employee where organization =('Amazon' and 'Google' and 'Microsoft');
+
+select * from employee where organization in ('Amazon' , 'Google' , 'Microsoft');
+
+select * from employee where organization in ( 'Google');
+
+#***************** Group By ********************************
+select * from employee e ;
+
+#find how much total salary is paying by each company
+select organization , sum(salary) from employee group by organization ;
+
+#find count of employee from each city
+select address , count(name) as employee_count from employee group by address;
+
+select address , count(name) as employee_count from employee group by address having  count(name)<5;
+
+# where vs having 
+	 
