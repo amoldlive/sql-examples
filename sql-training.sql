@@ -372,11 +372,24 @@ SELECT name,salary FROM employee e  LIMIT 3;
 
 SELECT * FROM employee  LIMIT 5;
 
+#wildcard characters _ , %
+select * from employee e ;
 
+SELECT * FROM employee
+WHERE name LIKE '_o%';
+
+SELECT * FROM employee e 
+WHERE address  LIKE '______';
+
+SELECT id, name , salary  
+FROM employee e 
+WHERE name LIKE '%ri%';
+
+#merging / Combining Conditions
 # and , or , in , as
 
 #****************************AND /OR **********************************************************
-
+#find employee whose salary is more than 30000 and stays in mumbai
 select * from employee where salary >30000 and address ='Mumbai';
 
 # find the list of Amazon employees whose salary is less than 30000 
@@ -413,6 +426,26 @@ select * from employee where organization in ('Amazon' , 'Google' , 'Microsoft')
 
 select * from employee where organization in ( 'Google');
 
+#*******************Order By************************************
+#Natural sorting algo -ascending
+
+#order by asc /desc 
+select * from employee e order by name ;
+
+select * from employee e order by address ASC;
+
+select * from employee e order by address  desc;
+
+#order by 2nd column - ascending
+select id,name,salary from employee e order by 2 ASC;
+
+#order by 2nd column -descending
+select id,name,salary from employee e order by 2 desc;
+
+#order by multi column
+select * from employee e order by name ,address;
+
+
 #***************** Group By ********************************
 select * from employee e ;
 
@@ -426,19 +459,6 @@ select address , count(name) as employee_count from employee group by address ha
 
 # where vs having 
 
-
-#*******************Order By************************************
-#Natural sorting algo -ascending
-
-#order by asc /desc 
-select * from employee e order by name ;
-
-select * from employee e order by address ASC;
-
-select * from employee e order by address  desc;
-
-#order by multi column
-select * from employee e order by name ,address;
 
 
 #update
@@ -458,7 +478,7 @@ select * from employee e ;
  
 # delete  from employee; 
 
-
+#------------------------------------------------------Constraints--------------------------------------------------------------------------------
 
 #constraints 
 /*
@@ -622,15 +642,10 @@ insert into person(firstName,lastName,age) values('Tejas','Varma',10);
 
 select * from person;
 
-
-#avg
-#limit
-#like
-
-
 #foreign key
 #composite key
 
+#---------------------------------------------------------------------------------------------------------------------------------------
 
 #String function 
 
