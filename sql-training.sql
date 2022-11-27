@@ -1084,5 +1084,5 @@ FROM people;
 ##TODO - refer below for more date time function details
 #https://dev.mysql.com/doc/refman/5.7/en/date-and-time-functions.html#function_current-timestamp
 
-#joins
 
+#*****************Joins ********************************
