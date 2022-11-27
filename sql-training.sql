@@ -1,5 +1,4 @@
-#Database Operation
--------------------
+#************** Database Operation**************************************
 #create database
 #create database <database_name>;
 create database mydb;
@@ -62,7 +61,7 @@ CHAR
 VARCHAR
 BINARY
 VARBINARY
-BLOB
+BLOB  -binary large object
 TINYBLOB
 MEDIUMBLOB
 LONGBLOB
@@ -78,6 +77,7 @@ DATETIME
 TIMESTAMP
 TIME
 YEAR
+
 boolean
 ------------
 BOOL/boolean
@@ -111,10 +111,8 @@ create table employee(
 	salary float
 );
 
-#Assignment-1 - create student table | perform related operations  
 
-#Table Operation
-----------------
+#************** Table Operation**************************************
 show databases;
 
 #DISPLAY LIST OF TABLES
@@ -140,9 +138,6 @@ rename table employee2 to employee;
 #drop Tabel
 drop  table employee ;
 
-
-
-
 #delete Tabel
 insert into employee(id,name,address,phone_number,email_id,salary) values(1,'Rohit Sharma' , 'Nagpur', '8945689564' ,'abc@gmail.com',44000.56);
 
@@ -158,12 +153,9 @@ select * from employee  ;
 truncate employee;
 
 
-# delete VS truncate
+#TODO : understand delete VS truncate
 
-#------------------------------------------------Alter Operations-------------------------------------------------------------------------------------
-
-#alter Tabel operations
---------------------------
+#************** Alter Table Operations **************************************
 #-----Add column
 #alter table <table_name> add columnname datatype;
 
@@ -195,10 +187,8 @@ ALTER TABLE employee DROP Column test;
 
 desc employee ;
 
-#-------------------------------------------------------Insert Operation------------------------------------------------------------------------------
 
-#Data Operations
-#-----------------
+#************** Insert Operations **************************************
 #insert
 #insert into <table_name> values(....,...,..,..);
 #insert into <table_name>(columnname1,columnanme2,columnname3) values(....,...,..,..);
@@ -226,11 +216,10 @@ select * from employee e ;
 INSERT INTO employee values(1,'Rohit Sharma' , 'Nagpur', '8945689564' ,'abc@gmail.com',44000.56);
 
 
-
 select * from employee e ;
 
 #------DummyData  -- execute SQL script
--------------------------------------
+
 truncate table employee ;
 
 INSERT INTO employee values
@@ -246,8 +235,7 @@ INSERT INTO employee values
 (10,'Ranveer Sing' , 'Nagpur', '123456789' ,'aaaa@gmail.com',25000,'IT',1,'Google');
 
 
-
-
+#TODO -
 #assignmnet -
 /*
  * create student db
@@ -256,9 +244,10 @@ INSERT INTO employee values
  * table operations
  * 20 recrods - using single insert / multi insert 
  * 
- */*
-#----------------------------------------------------Select Operation---------------------------------------------------------------------------------
+ */
 
+ 
+#************** Select Operations **************************************
  #select
 # fetch all data
 select * from employee ;
@@ -283,12 +272,9 @@ select dept from employee e ;
 
 select distinct dept from employee;
 
-#----------------------------------------------------Aggregate Functions---------------------------------------------------------------------------------
 
-
-#Aggregate functions
+#************** Aggregate Functions**************************************
 #count  get count of the data
-
 #select aggregate_Function(column_name) from <tablename>
 
 #to get count
@@ -323,13 +309,17 @@ select ceil (salary) from employee;
 
 select avg(salary) from employee;
 
-#80.6
-#floor - 80
-#ceil - 81
+/**
+ * 80.6
+ * floor - 80
+ * ceil - 81
+ */
+
+#TODO - refer below link
 #https://dev.mysql.com/doc/refman/8.0/en/aggregate-functions.html
 
-#--------------------------------------------------Clouse-----------------------------------------------------------------------------------
 
+#************** Clouse **************************************
 #Clouse
 	/*
 	 * Where 
@@ -338,11 +328,12 @@ select avg(salary) from employee;
 	 * order by
 	 */*
 
+#**************Where Clouse **************************************
 #where -> filteration 
-
 #select column_names from table_name where [condition]
 
-# = , < , > , <= , >= , <> , !=   [conditional - operators] 
+	 
+# = , < , > , <= , >= , <> , != , LIKE  [conditional - operators] 
 
 select * from employee where id=2;
 
@@ -367,7 +358,38 @@ select * from employee where address != 'Nagpur';
 
 select * from employee where salary != 30000;
 	 
-#Limit
+
+#**************Like Operator **************************************
+#wildcard characters _ , %
+# _ -> represent single character location
+#% -> represent Multi CHaracter
+
+select * from employee e ;
+
+#select * from employee where <columnname> like 'wildcard expression' ;
+
+#select employee whose names 2nd character is O 
+SELECT * FROM employee
+WHERE name LIKE '_o%';
+
+
+SELECT * FROM employee
+WHERE name ='Ranveer Sing';
+
+# find employee names contains ee
+SELECT * FROM employee
+WHERE name like '%ee%';
+
+#find employee whose location contains 6 character start with N
+SELECT * FROM employee e 
+WHERE address  LIKE 'N_____';
+
+SELECT id, name , salary  
+FROM employee e 
+WHERE name LIKE '%ri%';
+
+
+#**************LIMIT Operator **************************************
 select * from employee ;
 
 SELECT * FROM employee  LIMIT 1;
@@ -378,18 +400,7 @@ SELECT name,salary FROM employee e  LIMIT 3;
 
 SELECT * FROM employee  LIMIT 5;
 
-#wildcard characters _ , %
-select * from employee e ;
 
-SELECT * FROM employee
-WHERE name LIKE '_o%';
-
-SELECT * FROM employee e 
-WHERE address  LIKE '______';
-
-SELECT id, name , salary  
-FROM employee e 
-WHERE name LIKE '%ri%';
 
 #---------------------------------------------Combining Conditions----------------------------------------------------------------------------------------
 
@@ -423,7 +434,6 @@ select * from employee where salary <30000 and dept =('HR' or  'IT');
 select * from employee where salary >30000 and organization =('Amazon' or 'Google');
 
 
-
 #************** in**************************************
 #find the list of employees working in Amazon Google Microsoft
 select * from employee where organization='Amazon';
@@ -433,6 +443,14 @@ select * from employee where organization =('Amazon' and 'Google' and 'Microsoft
 select * from employee where organization in ('Amazon' , 'Google' , 'Microsoft');
 
 select * from employee where organization in ( 'Google');
+
+
+#************** AS**************************************
+#find the list of employees working in Amazon Google Microsoft
+select * from employee where organization='Amazon';
+
+
+
 
 #*******************Order By************************************
 #Natural sorting algo -ascending
@@ -521,6 +539,7 @@ insert into person(firstName,lastName) values('Soham','shah');
 select * from person;
 
 
+#Not Null
 drop table person;
 
 create table person(
@@ -539,7 +558,6 @@ select * from person;
 desc person;
 
 
-
 insert into person values(1,'virat','kohli',40);
 
 insert into person values(1,'virat','kohli',40);
@@ -549,7 +567,7 @@ insert into person values(1,'virat','kohli',40);
 insert into person values(1,'virat','kohli',40);
 
 
-#id
+#Unique - dosent allow duplication
 
 drop table person;
 
@@ -560,16 +578,17 @@ create table person(
 	age int not null
 );
 
+desc person ;
 
 insert into person values(1,'virat','kohli',40);
+
+select * from person p ;
 
 insert into person values(1,'virat','kohli',40);
 
 insert into person values(2,'virat','kohli',40);
 
 select * from person;
-
-desc person;
 
 
 # primary key ->  not null + unique
@@ -584,6 +603,8 @@ create table person(
 	age int not null
 );
 
+desc person;
+
 insert into person values(1,'virat','kohli',40);
 
 insert into person values(1,'virat','kohli',40);
@@ -593,11 +614,28 @@ insert into person values(2,'virat','kohli',40);
 select * from person;
 
 #primary key -way 2
+drop table person;
 
+create table person(
+	id int,
+	firstName varchar(20) not null,
+	lastName varchar(20) not null,
+	age int not null,
+	primary key(id)
+);
+
+desc person;
+
+insert into person values(1,'virat','kohli',40);
+
+insert into person values(1,'virat','kohli',40);
+
+insert into person values(2,'virat','kohli',40);
+
+select * from person;
 
 
 #default
-
 drop table person;
 
 create table person(
@@ -610,9 +648,6 @@ create table person(
 insert into person(id,firstName,lastName) values(2,'virat','kohli');
 
 select * from person;
-
-
-
 
 
 #auto_increment
@@ -636,7 +671,7 @@ select * from person;
 drop table person;
 
 create table person(
-	id int primary key auto_increment ,
+	id int primary key auto_increment check ,
 	firstName varchar(20) not null,
 	lastName varchar(20) not null,
 	age int not null check (age>18)
@@ -652,7 +687,6 @@ select * from person;
 
 #foreign key
 #composite key
-
 #---------------------------------------------------------------------------------------------------------------------------------------
 
 #String function 
@@ -662,7 +696,6 @@ select * from person;
 
 #Code formatter 
 #https://codebeautify.org/sqlformatter
-
 
 create database booksdb;
 
@@ -701,29 +734,68 @@ VALUES
 
 select * from books b ;
 
+select author_fname as first_name  from books as b ;
+
 #concat
+select concat('A','B','C');
+
 SELECT CONCAT('pi', 'ckle');
- 
+
+SELECT CONCAT(author_fname,' ', author_lname) as author_fullname  FROM books;
+
 SELECT CONCAT(author_fname,' ', author_lname) AS author_name FROM books;
 
-SELECT CONCAT_WS('-', 'I', 'am', 'learning', 'SQL!');
+
+#concat_WS
+SELECT CONCAT_WS('-', 'I', 'am', 'learning', 'SQL!') as output;
+
+#I-am-learning-SQL!
 
 SELECT CONCAT_WS('-',title, author_fname, author_lname) FROM books;
 
 
 #substring
+
+/*
+sentence  			Hello World
+start point         1
+end point           4
+*/
+
 SELECT SUBSTRING('Hello World', 1, 4);
  
 SELECT SUBSTRING('Hello World', 7);
+
+SELECT SUBSTRING('Hello World', 9);
  
-SELECT SUBSTRING('Hello World', -4);
+#start with last location
+SELECT SUBSTRING('Hello World', -5 );
  
+
+SELECT title FROM books;
+
+#The Amazing Adventures of Kavalier & Clay : The Amazin
+
 SELECT SUBSTRING(title, 1, 10) AS 'short title' FROM books;
+
+SELECT SUBSTRING(title, 1, 10) AS 'short title' FROM books where title ='The Amazing Adventures of Kavalier & Clay';
  
 SELECT SUBSTR(title, 1, 10) AS 'short title' FROM books;
 
 
 #multi function
+
+select concat('Hello' ,'Wold')
+
+select substring('Hello Wold' , 7);
+
+select concat('Hello' ,substring('Hello Wold' , 7))
+
+select concat_ws('**','Hello' ,substring('Hello Wold' , 7))
+
+
+#The Amazin...
+
 SELECT CONCAT
     (
         SUBSTRING(title, 1, 10),
