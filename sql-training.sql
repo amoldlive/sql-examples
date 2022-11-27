@@ -379,8 +379,11 @@ SELECT name FROM employee e  LIMIT 3;
 
 SELECT name,salary FROM employee e  LIMIT 3;
 
+SELECT * FROM employee  LIMIT 5;
+
  
- #Like
+ ary is greater than 30000 and working with Amazon Or Google 
+select * from employee where salary >30#Like
 #wildcard characters _ , %
 
 SELECT * FROM employee
@@ -421,8 +424,7 @@ select * from employee where salary <30000 or organization ='Amazon' or dept='ST
 # find the list of  employees whose salary is less than 30000 and working department is HR or IT 
 select * from employee where salary <30000 and dept =('HR' or  'IT');
 
-# find the list of  employees whose salary is greater than 30000 and working with Amazon Or Google 
-select * from employee where salary >30000 and organization =('Amazon' or 'Google');
+# find the list of  employees whose sal000 and organization =('Amazon' or 'Google');
 
 
 
