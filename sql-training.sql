@@ -1,5 +1,4 @@
-#Database Operation
--------------------
+#************** Database Operation**************************************
 #create database
 #create database <database_name>;
 create database mydb;
@@ -25,11 +24,9 @@ use mydb;
 #create Tabel
 
 /*
-
 create table <table_name>(
 	column_details
 );
-
 */
 
 #create table
@@ -48,7 +45,6 @@ create table person (
 
 /*
 Numeric Types			 
-
 INT
 SMALLINT
 TINYINT
@@ -59,16 +55,13 @@ NUMERIC
 FLOAT
 DOUBLE
 BIT
-
-
 String Type
 ------------
-
 CHAR
 VARCHAR
 BINARY
 VARBINARY
-BLOB
+BLOB  -binary large object
 TINYBLOB
 MEDIUMBLOB
 LONGBLOB
@@ -77,8 +70,6 @@ TINYTEXT
 MEDIUMTEXT
 LONGTEXT
 ENUM
-
-
 DATE TYPES
 -----------
 DATE
@@ -120,10 +111,8 @@ create table employee(
 	salary float
 );
 
-#Assignment-1 - create student table | perform related operations  
 
-#Table Operation
-----------------
+#************** Table Operation**************************************
 show databases;
 
 #DISPLAY LIST OF TABLES
@@ -149,9 +138,6 @@ rename table employee2 to employee;
 #drop Tabel
 drop  table employee ;
 
-
-
-
 #delete Tabel
 insert into employee(id,name,address,phone_number,email_id,salary) values(1,'Rohit Sharma' , 'Nagpur', '8945689564' ,'abc@gmail.com',44000.56);
 
@@ -167,11 +153,9 @@ select * from employee  ;
 truncate employee;
 
 
-# delete VS truncate
+#TODO : understand delete VS truncate
 
-
-#alter Tabel operations
---------------------------
+#************** Alter Table Operations **************************************
 #-----Add column
 #alter table <table_name> add columnname datatype;
 
@@ -204,8 +188,7 @@ ALTER TABLE employee DROP Column test;
 desc employee ;
 
 
-#Data Operations
-#-----------------
+#************** Insert Operations **************************************
 #insert
 #insert into <table_name> values(....,...,..,..);
 #insert into <table_name>(columnname1,columnanme2,columnname3) values(....,...,..,..);
@@ -233,11 +216,10 @@ select * from employee e ;
 INSERT INTO employee values(1,'Rohit Sharma' , 'Nagpur', '8945689564' ,'abc@gmail.com',44000.56);
 
 
-
 select * from employee e ;
 
 #------DummyData  -- execute SQL script
--------------------------------------
+
 truncate table employee ;
 
 INSERT INTO employee values
@@ -253,8 +235,7 @@ INSERT INTO employee values
 (10,'Ranveer Sing' , 'Nagpur', '123456789' ,'aaaa@gmail.com',25000,'IT',1,'Google');
 
 
-
-
+#TODO -
 #assignmnet -
 /*
  * create student db
@@ -263,8 +244,10 @@ INSERT INTO employee values
  * table operations
  * 20 recrods - using single insert / multi insert 
  * 
- */*
+ */
 
+ 
+#************** Select Operations **************************************
  #select
 # fetch all data
 select * from employee ;
@@ -290,9 +273,8 @@ select dept from employee e ;
 select distinct dept from employee;
 
 
-#Aggregate functions
+#************** Aggregate Functions**************************************
 #count  get count of the data
-
 #select aggregate_Function(column_name) from <tablename>
 
 #to get count
@@ -327,12 +309,17 @@ select ceil (salary) from employee;
 
 select avg(salary) from employee;
 
-#80.6
-#floor - 80
-#ceil - 81
+/**
+ * 80.6
+ * floor - 80
+ * ceil - 81
+ */
+
+#TODO - refer below link
 #https://dev.mysql.com/doc/refman/8.0/en/aggregate-functions.html
 
 
+#************** Clouse **************************************
 #Clouse
 	/*
 	 * Where 
@@ -341,11 +328,12 @@ select avg(salary) from employee;
 	 * order by
 	 */*
 
+#**************Where Clouse **************************************
 #where -> filteration 
-
 #select column_names from table_name where [condition]
 
-# = , < , > , <= , >= , <> , !=   [conditional - operators] 
+	 
+# = , < , > , <= , >= , <> , != , LIKE  [conditional - operators] 
 
 select * from employee where id=2;
 
@@ -370,7 +358,38 @@ select * from employee where address != 'Nagpur';
 
 select * from employee where salary != 30000;
 	 
-#Limit
+
+#**************Like Operator **************************************
+#wildcard characters _ , %
+# _ -> represent single character location
+#% -> represent Multi CHaracter
+
+select * from employee e ;
+
+#select * from employee where <columnname> like 'wildcard expression' ;
+
+#select employee whose names 2nd character is O 
+SELECT * FROM employee
+WHERE name LIKE '_o%';
+
+
+SELECT * FROM employee
+WHERE name ='Ranveer Sing';
+
+# find employee names contains ee
+SELECT * FROM employee
+WHERE name like '%ee%';
+
+#find employee whose location contains 6 character start with N
+SELECT * FROM employee e 
+WHERE address  LIKE 'N_____';
+
+SELECT id, name , salary  
+FROM employee e 
+WHERE name LIKE '%ri%';
+
+
+#**************LIMIT Operator **************************************
 select * from employee ;
 
 SELECT * FROM employee  LIMIT 1;
@@ -381,28 +400,12 @@ SELECT name,salary FROM employee e  LIMIT 3;
 
 SELECT * FROM employee  LIMIT 5;
 
- 
- ary is greater than 30000 and working with Amazon Or Google 
-select * from employee where salary >30#Like
-#wildcard characters _ , %
-
-SELECT * FROM employee
-WHERE name LIKE '_o%';
-
-SELECT * FROM employee e 
-WHERE address  LIKE '______';
-
-SELECT id, name , salary  
-FROM employee e 
-WHERE name LIKE '%ri%';
 
 
+#************** Combining Conditions [and , or , in ] **************************************
 
-
-# and , or , in , as
-
-#****************************AND /OR **********************************************************
-
+#************** AND **************************************
+#find employee whose salary is more than 30000 and stays in mumbai
 select * from employee where salary >30000 and address ='Mumbai';
 
 # find the list of Amazon employees whose salary is less than 30000 
@@ -414,18 +417,19 @@ select * from employee where salary <30000 and organization ='Amazon' and dept='
 ## find the list of Amazon employees whose salary is less than 30000 and working is IT department
 select * from employee where salary <30000 and organization ='Amazon' and dept='IT';
 
-
+#************** OR **************************************
 # find the list of  employees whose salary is less than 30000 or working with Amazon 
 select * from employee where salary <30000 or organization ='Amazon';
 
 # find the list of  employees whose salary is less than 30000 or working with Amazon or department is staff
 select * from employee where salary <30000 or organization ='Amazon' or dept='STAFF';
 
+#************** AND/OR **************************************
 # find the list of  employees whose salary is less than 30000 and working department is HR or IT 
 select * from employee where salary <30000 and dept =('HR' or  'IT');
 
-# find the list of  employees whose sal000 and organization =('Amazon' or 'Google');
-
+# find the list of  employees whose salary is greater than 30000 and working with Amazon Or Google 
+select * from employee where salary >30000 and organization =('Amazon' or 'Google');
 
 
 #************** in**************************************
@@ -438,6 +442,38 @@ select * from employee where organization in ('Amazon' , 'Google' , 'Microsoft')
 
 select * from employee where organization in ( 'Google');
 
+#************** AS**************************************
+#display id,name,Salary of enployee and employee_id,employee_name , employee_salary
+select id ,name ,salary from employee;
+
+#select id as employee_id,name as employee_name,salary as employee_salary from employee;
+
+#select id  employee_id,name  employee_name,salary  employee_salary from employee;
+
+#select id  employee_id,name  employee_name,salary  employee_salary from employee emp where emp.id =2;
+
+
+#*******************Order By************************************
+#Natural sorting algo -ascending
+
+#order by asc /desc 
+select * from employee e order by name ;
+
+select * from employee e order by address ASC;
+
+select * from employee e order by address  desc;
+
+#order by 2nd column - ascending
+select id,name,salary from employee e order by 2 ASC;
+
+#order by 2nd column -descending
+select id,name,salary from employee e order by 2 desc;
+
+#order by multi column
+select * from employee e order by address,name ;
+
+select * from employee e order by address,name desc;
+
 #***************** Group By ********************************
 select * from employee e ;
 
@@ -449,5 +485,3 @@ select address , count(name) as employee_count from employee group by address;
 
 select address , count(name) as employee_count from employee group by address having  count(name)<5;
 
-# where vs having 
-	 
