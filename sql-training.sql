@@ -402,12 +402,9 @@ SELECT * FROM employee  LIMIT 5;
 
 
 
-#---------------------------------------------Combining Conditions----------------------------------------------------------------------------------------
+#************** Combining Conditions [and , or , in ] **************************************
 
-#merging / Combining Conditions
-# and , or , in , as
-
-#****************************AND /OR **********************************************************
+#************** AND **************************************
 #find employee whose salary is more than 30000 and stays in mumbai
 select * from employee where salary >30000 and address ='Mumbai';
 
@@ -420,13 +417,14 @@ select * from employee where salary <30000 and organization ='Amazon' and dept='
 ## find the list of Amazon employees whose salary is less than 30000 and working is IT department
 select * from employee where salary <30000 and organization ='Amazon' and dept='IT';
 
-
+#************** OR **************************************
 # find the list of  employees whose salary is less than 30000 or working with Amazon 
 select * from employee where salary <30000 or organization ='Amazon';
 
 # find the list of  employees whose salary is less than 30000 or working with Amazon or department is staff
 select * from employee where salary <30000 or organization ='Amazon' or dept='STAFF';
 
+#************** AND/OR **************************************
 # find the list of  employees whose salary is less than 30000 and working department is HR or IT 
 select * from employee where salary <30000 and dept =('HR' or  'IT');
 
@@ -444,12 +442,15 @@ select * from employee where organization in ('Amazon' , 'Google' , 'Microsoft')
 
 select * from employee where organization in ( 'Google');
 
-
 #************** AS**************************************
-#find the list of employees working in Amazon Google Microsoft
-select * from employee where organization='Amazon';
+#display id,name,Salary of enployee and employee_id,employee_name , employee_salary
+select id ,name ,salary from employee;
 
+#select id as employee_id,name as employee_name,salary as employee_salary from employee;
 
+#select id  employee_id,name  employee_name,salary  employee_salary from employee;
+
+#select id  employee_id,name  employee_name,salary  employee_salary from employee emp where emp.id =2;
 
 
 #*******************Order By************************************
@@ -469,8 +470,9 @@ select id,name,salary from employee e order by 2 ASC;
 select id,name,salary from employee e order by 2 desc;
 
 #order by multi column
-select * from employee e order by name ,address;
+select * from employee e order by address,name ;
 
+select * from employee e order by address,name desc;
 
 #***************** Group By ********************************
 select * from employee e ;
@@ -483,9 +485,8 @@ select address , count(name) as employee_count from employee group by address;
 
 select address , count(name) as employee_count from employee group by address having  count(name)<5;
 
-#TODO - understand the difference - IMP -  where vs having  
 
-#--------------------------------------------------update/delete-----------------------------------------------------------------------------------
+#TODO - understand the difference - IMP -  where vs having  
 
 #update
 	
