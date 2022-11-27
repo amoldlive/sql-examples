@@ -765,7 +765,7 @@ select * from person;
 drop table person;
 
 create table person(
-	id int primary key auto_increment check ,
+	id int primary key auto_increment ,
 	firstName varchar(20) not null,
 	lastName varchar(20) not null,
 	age int not null check (age>18)
@@ -781,6 +781,49 @@ select * from person;
 
 
 #*****************Foreign Key ********************************
+#TODO : Understand Normalization and ACID Property
+
+drop table vaccination;
+
+create table vaccination(
+	v_id int primary key auto_increment, 
+	v_name varchar(100),
+	v_entry_date datetime,
+	v_ex_date datetime
+);
+
+#SELECT NOW();
+
+#select CURRENT_TIMESTAMP();
+
+
+insert into vaccination(v_name,v_entry_date,v_ex_date) values('Co-Vaxin',now() ,'2035-11-27 17:05:00');
+
+insert into vaccination(v_name,v_entry_date,v_ex_date) values('Covishield',now() ,'2035-11-27 17:05:00');
+
+insert into vaccination(v_name,v_entry_date,v_ex_date) values('?',now() ,'2035-11-27 17:05:00');
+
+select * from vaccination;
+
+drop table person;
+
+create table person(
+	id int primary key auto_increment ,
+	firstName varchar(20) not null,
+	lastName varchar(20) not null,
+	age int not null,
+	v_id int ,
+	foreign key(v_id) references vaccination(v_id)
+);
+
+
+insert into person (firstName ,lastName , age , v_id)
+values ('Rahul','Sharma',20,1);
+
+select * from person p ;
+
+insert into person (firstName ,lastName , age , v_id)
+values ('Rahul','Sharma',20,10);
 
 
 
@@ -975,10 +1018,9 @@ SELECT TRIM('  pickle  ');
 -- print short title , author , quantity
 
 
+#*****************SQL Injection ********************************
+#SELECT * from EMPLOYEE where id=100 or   1=1  
 
-#foreign key
 
 #joins
-#sql injection
-#SELECT * from EMPLOYEE where id=100 or   1=1  
 
