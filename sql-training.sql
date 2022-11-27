@@ -709,11 +709,7 @@ insert into person(firstName,lastName,age) values('Tejas','Varma',10);
 
 select * from person;
 
-#foreign key
-#composite key
-#---------------------------------------------------------------------------------------------------------------------------------------
-
-#String function 
+#*****************String Function ********************************
 
 #refer belo link for more string function
 #https://dev.mysql.com/doc/refman/8.0/en/string-functions.html
@@ -756,9 +752,7 @@ VALUES
 ('Oblivion: Stories', 'David', 'Foster Wallace', 2004, 172, 329),
 ('Consider the Lobster', 'David', 'Foster Wallace', 2005, 92, 343);
 
-select * from books b ;
-
-select author_fname as first_name  from books as b ;
+select * from books ;
 
 #concat
 select concat('A','B','C');
@@ -878,8 +872,8 @@ SELECT CONCAT('MY FAVORITE BOOK IS ', UPPER(title)) FROM books;
 SELECT CONCAT('MY FAVORITE BOOK IS ', LOWER(title)) FROM books;
 
 
-
 #INSERT
+#Insert the string Replace the Nthe sixth characters:
 SELECT INSERT('Hello Bobby', 6, 0, 'There'); 
 
 SELECT INSERT('Hello Bobby', 6, 1, 'There'); 
@@ -896,22 +890,18 @@ SELECT REPEAT('ha', 4);
 SELECT TRIM('  pickle  ');
 
 
-#Excercise -1 
+#*****************String Function Excercise ********************************
+
 reverse and uppercase the following sentence
-
  #A set of words that is complete in itself
-
 replace spaces in titles with ->
 print name and reverse of the name
 print book title and length of each title
 print short title , author , quantity
 
-#Excercise-2
 
-
-
-
-
+#foreign key
+#composite key
 
 #joins
 #sql injection
