@@ -253,8 +253,6 @@ INSERT INTO employee values
 (10,'Ranveer Sing' , 'Nagpur', '123456789' ,'aaaa@gmail.com',25000,'IT',1,'Google');
 
 
-#select
-select * from employee ;
 
 
 #assignmnet -
@@ -267,28 +265,62 @@ select * from employee ;
  * 
  */*
 
+ #select
+# fetch all data
+select * from employee ;
+
+select  id , name ,address ,phone_number ,email_id ,salary ,dept ,dept_id ,organization from employee ;
+
+#fetch column wise data
+select id,name,salary from employee;
+
+select id,name,organization  from employee;
+
+
 #distinct - find unique values
 select organization  from employee ;
 
+#seletc distinct <column_nmae> from <tablename>
+
 select distinct organization from employee;
+
+
+select dept from employee e ;
 
 select distinct dept from employee;
 
-#Aggregate functions
 
+#Aggregate functions
 #count  get count of the data
+
+#select aggregate_Function(column_name) from <tablename>
+
+#to get count
 select count(*) from employee ;
 
 select count(id) from employee ;
 
+select count(name) from employee ;
+
+
 select * from employee;
 
+#to get sum
 select sum(salary) from employee;
 
+select sum(id) from employee;
+
+select * from employee;
+
+#to get minimum value
 select min(salary) from employee;
 
+#to get maximum value
 select max(salary) from employee;
 
+select * from employee;
+
+#to get floor and ceil
 select floor(salary) from employee;
 
 select ceil (salary) from employee;
@@ -298,7 +330,6 @@ select avg(salary) from employee;
 #80.6
 #floor - 80
 #ceil - 81
-
 #https://dev.mysql.com/doc/refman/8.0/en/aggregate-functions.html
 
 
@@ -322,18 +353,26 @@ select * from employee where salary <30000;
 
 select * from employee where salary >30000;
 
+select id,name,salary from employee where salary >30000;
+
 select * from employee where salary <=30000;
 
 select * from employee where salary >=30000;
 
 #Not Equal To
+select * from employee where address <> 'Nagpur';
+
+
 select * from employee where salary <> 30000;
 
 #Not Equal To
+select * from employee where address != 'Nagpur';
 
 select * from employee where salary != 30000;
 	 
 #Limit
+select * from employee ;
+
 SELECT * FROM employee  LIMIT 1;
 
 SELECT name FROM employee e  LIMIT 3;
@@ -342,28 +381,18 @@ SELECT name,salary FROM employee e  LIMIT 3;
 
  
  #Like
+#wildcard characters _ , %
+
 SELECT * FROM employee
-WHERE author_fname LIKE '_a_';
+WHERE name LIKE '_o%';
 
-SELECT title, author_fname, author_lname, pages 
-FROM books
-WHERE author_fname LIKE '%da%';
- 
-SELECT title, author_fname, author_lname, pages 
-FROM books
-WHERE title LIKE '%:%';
- 
-SELECT * FROM books
-WHERE author_fname LIKE '____';
- 
+SELECT * FROM employee e 
+WHERE address  LIKE '______';
 
--- To select books with '%' in their title:
-SELECT * FROM books
-WHERE title LIKE '%\%%';
- 
--- To select books with an underscore '_' in title:
-SELECT * FROM books
-WHERE title LIKE '%\_%';
+SELECT id, name , salary  
+FROM employee e 
+WHERE name LIKE '%ri%';
+
 
 
 
