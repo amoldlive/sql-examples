@@ -160,6 +160,7 @@ truncate employee;
 
 # delete VS truncate
 
+#------------------------------------------------Alter Operations-------------------------------------------------------------------------------------
 
 #alter Tabel operations
 --------------------------
@@ -194,6 +195,7 @@ ALTER TABLE employee DROP Column test;
 
 desc employee ;
 
+#-------------------------------------------------------Insert Operation------------------------------------------------------------------------------
 
 #Data Operations
 #-----------------
@@ -255,6 +257,7 @@ INSERT INTO employee values
  * 20 recrods - using single insert / multi insert 
  * 
  */*
+#----------------------------------------------------Select Operation---------------------------------------------------------------------------------
 
  #select
 # fetch all data
@@ -279,6 +282,8 @@ select distinct organization from employee;
 select dept from employee e ;
 
 select distinct dept from employee;
+
+#----------------------------------------------------Aggregate Functions---------------------------------------------------------------------------------
 
 
 #Aggregate functions
@@ -323,6 +328,7 @@ select avg(salary) from employee;
 #ceil - 81
 #https://dev.mysql.com/doc/refman/8.0/en/aggregate-functions.html
 
+#--------------------------------------------------Clouse-----------------------------------------------------------------------------------
 
 #Clouse
 	/*
@@ -384,6 +390,8 @@ WHERE address  LIKE '______';
 SELECT id, name , salary  
 FROM employee e 
 WHERE name LIKE '%ri%';
+
+#---------------------------------------------Combining Conditions----------------------------------------------------------------------------------------
 
 #merging / Combining Conditions
 # and , or , in , as
@@ -457,9 +465,9 @@ select address , count(name) as employee_count from employee group by address;
 
 select address , count(name) as employee_count from employee group by address having  count(name)<5;
 
-# where vs having 
+#TODO - understand the difference - IMP -  where vs having  
 
-
+#--------------------------------------------------update/delete-----------------------------------------------------------------------------------
 
 #update
 	
