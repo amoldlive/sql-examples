@@ -488,7 +488,8 @@ select address , count(name) as employee_count from employee group by address ha
 
 #TODO - understand the difference - IMP -  where vs having  
 
-#update
+
+#***************** Update ********************************
 	
 update employee set address ='Kolhapur' where id=7;
 
@@ -498,49 +499,82 @@ select * from employee e ;
 
 update employee set phone_number ='9874589645' where id=4 and name ='Neha sharma';
 
-#Delete
+
+#***************** Delete ********************************
 delete  from employee where id=10;
 
 select * from employee e ;
  
+#below query will delete all the data from employee table
 # delete  from employee; 
 
-#------------------------------------------------------Constraints--------------------------------------------------------------------------------
+#***************** CRUD Excersise ********************************
 
-#constraints 
+create database - mycart
+
+create table cloaths
+
+cloathid(primary key)  , article , color  , size , price - default 0 , available
+
+
+insert into cloaths
+('T-SHIRT' , 'BLUE' , 'M' , 2000,'Y');
+('T-SHIRT' , 'WHITE' , 'L' , 2500,'Y');
+('T-SHIRT' , 'RED' , 'S' , 1000,'N');
+('T-SHIRT' , 'ORANGE' , 'M' , 3000,'Y');
+('SHIRT' , 'WHITE' , 'M' , 5000,'Y');
+('SHIRT' , 'BLUE' , 'L' , 3500,'N');
+('SHIRT' , 'GREY' , 'M' , 3400,'Y');
+('TANK-TOP' , 'WHITE' , 'M' , 1000,'Y');
+('TANK-TOP' , 'BLACK' , 'S' , 1200,'Y');
+('TANK-TOP' , 'BLACK' , 'L' , 1300,'Y');
+('JEANS' , 'BLACK' , 'M' , 3000,'Y');
+('JEANS' , 'WHITE' , 'L' , 4000,'N');
+('JEANS' , 'BLUE' , 'L' , 2500,'Y');
+('TANK-TOP' , 'ORANGE' , 'M' , 2200,'Y');
+
+-- print all data using single line command
+
+-- add new shirt of grey color having size M and price 2000 which is available to sell
+
+-- select available articles and colors
+
+-- select all medium shirts
+
+-- select article,price of color white and size L 
+
+-- find article with min price
+
+-- find article with max price
+
+-- find 2nd highest price article
+
+-- find 3rd lowest price article
+
+-- find articles withi care not available in stock
+
+-- find article and total price belongs to that article 
+
+-- update all shirt size to L
+
+-- update price of the shirt to 0 if not available into the stock
+
+-- delete all articles if not available
+
+-- delete jeans whose price is less than 2500
+
+#***************** constraints ********************************
 /*
  * Not null
  * unique
  * primary key 
  * default
- *
+ * check
+ * foreign key
+ * composite key
  * */
 
-
-#Person Table
-create table person(
-	firstName varchar(20),
-	lastName varchar(20),
-	age int
-);
-
-select * from person;
-
-insert into person values('virat','kohli',40);
-
-#multi insert
-insert into person values
-('virat','kohli',40),
-('Rahul','vaidya',70),
-('dinesh','karti',89);
-
-
-insert into person(firstName,lastName) values('Soham','shah');
-
-select * from person;
-
-
-#Not Null
+#***************** Not Null ********************************
 drop table person;
 
 create table person(
@@ -550,25 +584,18 @@ create table person(
 	age int not null
 );
 
-insert into person(id , firstName,lastName) values(1,'Soham','shah');
+desc person;
+
+insert into person values(1,'virat','kohli',null);
+
+insert into person values(1,'virat',null,40);
 
 insert into person values(1,'virat','kohli',40);
 
 select * from person;
 
-desc person;
 
-
-insert into person values(1,'virat','kohli',40);
-
-insert into person values(1,'virat','kohli',40);
-
-insert into person values(1,'virat','kohli',40);
-
-insert into person values(1,'virat','kohli',40);
-
-
-#Unique - dosent allow duplication
+#*****************Unique ********************************
 
 drop table person;
 
@@ -583,18 +610,14 @@ desc person ;
 
 insert into person values(1,'virat','kohli',40);
 
-select * from person p ;
-
 insert into person values(1,'virat','kohli',40);
 
 insert into person values(2,'virat','kohli',40);
 
 select * from person;
 
+#*****************primary key ->  not null + unique ********************************
 
-# primary key ->  not null + unique
-
-#primary key -way 1
 drop table person;
 
 create table person(
@@ -636,7 +659,7 @@ insert into person values(2,'virat','kohli',40);
 select * from person;
 
 
-#default
+#*****************Default ********************************
 drop table person;
 
 create table person(
@@ -651,7 +674,7 @@ insert into person(id,firstName,lastName) values(2,'virat','kohli');
 select * from person;
 
 
-#auto_increment
+#*****************Auto Increment ********************************
 drop table person;
 
 create table person(
@@ -668,7 +691,7 @@ insert into person(firstName,lastName,age) values('Rahul','Sharma',38);
 select * from person;
 
 
-#check
+#*****************Check ********************************
 drop table person;
 
 create table person(
@@ -884,50 +907,7 @@ print book title and length of each title
 print short title , author , quantity
 
 #Excercise-2
-CRUD Excercise
----------------------
-create database - mycart
 
-create table cloaths
-
-cloathid(primary key)  , article , color  , size , price , available
-
-
-insert into cloaths
-('T-SHIRT' , 'BLUE' , 'M' , 2000,'Y');
-('T-SHIRT' , 'WHITE' , 'L' , 2500,'Y');
-('T-SHIRT' , 'RED' , 'S' , 1000,'N');
-('T-SHIRT' , 'ORANGE' , 'M' , 3000,'Y');
-('SHIRT' , 'WHITE' , 'M' , 5000,'Y');
-('SHIRT' , 'BLUE' , 'L' , 3500,'N');
-('SHIRT' , 'GREY' , 'M' , 3400,'Y');
-('TANK-TOP' , 'WHITE' , 'M' , 1000,'Y');
-('TANK-TOP' , 'BLACK' , 'S' , 1200,'Y');
-('TANK-TOP' , 'BLACK' , 'L' , 1300,'Y');
-('JEANS' , 'BLACK' , 'M' , 3000,'Y');
-('JEANS' , 'WHITE' , 'L' , 4000,'N');
-('JEANS' , 'BLUE' , 'L' , 2500,'Y');
-('TANK-TOP' , 'ORANGE' , 'M' , 2200,'Y');
-
-
-
-print all data using single line command
-
-add new shirt of grey color having size M and price 2000 which is available to sell
-
-select available articles and colors
-
-select all medium shirts
-
-select article,price of color white and size L 
-
-update all shirt size to L
-
-update price of the shirt to 0 if not available into the stock
-
-delete all articles if not available
-
-delete jeans whose price is less than 2500
 
 
 
