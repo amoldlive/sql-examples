@@ -508,6 +508,32 @@ select * from employee e ;
 #below query will delete all the data from employee table
 # delete  from employee; 
 
+
+select *  from employee e ;
+
+#***************** MISC Operations ********************************
+#UUID - universally unique identifier
+select uuid();
+
+#  ROW_Number()
+SELECT *, ROW_NUMBER() OVER(order by salary) AS row_num  
+FROM employee ;  
+
+#Rand() - get random records
+select * FROM employee e  
+ORDER BY RAND() LIMIT 1;  
+
+
+#***************** Sub Queries ********************************
+
+#find employee with highest salary 
+#find employee with 2nd highest salary
+#find employee with 3rd lowest salary
+#find employee with 2nd highest salary less than 70000
+
+#find dupllicate records
+
+
 #***************** CRUD Excersise ********************************
 
 create database - mycart
@@ -658,6 +684,50 @@ insert into person values(2,'virat','kohli',40);
 
 select * from person;
 
+#primary Key-way 3
+drop table person;
+
+create table person(
+	id int,
+	firstName varchar(20) not null,
+	lastName varchar(20) not null,
+	age int not null
+);
+
+ALTER TABLE person  add primary key(id);  
+
+desc person;
+
+insert into person values(1,'virat','kohli',40);
+
+insert into person values(1,'virat','kohli',40);
+
+insert into person values(2,'virat','kohli',40);
+
+select * from person;
+
+
+#*****************Composite Key ********************************
+drop table person;
+
+create table person(
+	id int,
+	firstName varchar(20) not null,
+	lastName varchar(20) not null,
+	age int not null,	
+	primary key(id,firstName)
+);
+
+desc person;
+
+insert into person values(1,'virat','kohli',40);
+
+insert into person values(1,'virat','kohli',40);
+
+insert into person values(2,'virat','kohli',40);
+
+select * from person;
+
 
 #*****************Default ********************************
 drop table person;
@@ -708,6 +778,11 @@ insert into person(firstName,lastName,age) values('Rahul','Sharma',25);
 insert into person(firstName,lastName,age) values('Tejas','Varma',10);
 
 select * from person;
+
+
+#*****************Foreign Key ********************************
+
+
 
 #*****************String Function ********************************
 
@@ -892,16 +967,16 @@ SELECT TRIM('  pickle  ');
 
 #*****************String Function Excercise ********************************
 
-reverse and uppercase the following sentence
+-- reverse and uppercase the following sentence
  #A set of words that is complete in itself
-replace spaces in titles with ->
-print name and reverse of the name
-print book title and length of each title
-print short title , author , quantity
+-- replace spaces in titles with ->
+-- print name and reverse of the name
+-- print book title and length of each title
+-- print short title , author , quantity
+
 
 
 #foreign key
-#composite key
 
 #joins
 #sql injection
