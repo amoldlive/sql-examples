@@ -488,7 +488,108 @@ select address , count(name) as employee_count from employee group by address;
 
 select address , count(name) as employee_count from employee group by address having  count(name)<5;
 
+#TODO - understand the difference - IMP -  where vs having  
 
+
+#***************** Update ********************************
+	
+update employee set address ='Kolhapur' where id=7;
+
+select * from employee e where id=7;
+
+select * from employee e ;
+
+update employee set phone_number ='9874589645' where id=4 and name ='Neha sharma';
+
+
+#***************** Delete ********************************
+delete  from employee where id=10;
+
+select * from employee e ;
+ 
+#below query will delete all the data from employee table
+# delete  from employee; 
+
+
+select *  from employee e ;
+
+#***************** MISC Operations ********************************
+#UUID - universally unique identifier
+select uuid();
+
+#  ROW_Number()
+SELECT *, ROW_NUMBER() OVER(order by salary) AS row_num  
+FROM employee ;  
+
+#Rand() - get random records
+select * FROM employee e  
+ORDER BY RAND() LIMIT 1;  
+
+
+#***************** Sub Queries ********************************
+
+#find employee with highest salary 
+#find employee with 2nd highest salary
+#find employee with 3rd lowest salary
+#find employee with 2nd highest salary less than 70000
+
+#find dupllicate records
+
+
+#***************** CRUD Excersise ********************************
+
+create database - mycart
+
+create table cloaths
+
+cloathid(primary key)  , article , color  , size , price - default 0 , available
+
+
+insert into cloaths
+('T-SHIRT' , 'BLUE' , 'M' , 2000,'Y');
+('T-SHIRT' , 'WHITE' , 'L' , 2500,'Y');
+('T-SHIRT' , 'RED' , 'S' , 1000,'N');
+('T-SHIRT' , 'ORANGE' , 'M' , 3000,'Y');
+('SHIRT' , 'WHITE' , 'M' , 5000,'Y');
+('SHIRT' , 'BLUE' , 'L' , 3500,'N');
+('SHIRT' , 'GREY' , 'M' , 3400,'Y');
+('TANK-TOP' , 'WHITE' , 'M' , 1000,'Y');
+('TANK-TOP' , 'BLACK' , 'S' , 1200,'Y');
+('TANK-TOP' , 'BLACK' , 'L' , 1300,'Y');
+('JEANS' , 'BLACK' , 'M' , 3000,'Y');
+('JEANS' , 'WHITE' , 'L' , 4000,'N');
+('JEANS' , 'BLUE' , 'L' , 2500,'Y');
+('TANK-TOP' , 'ORANGE' , 'M' , 2200,'Y');
+
+-- print all data using single line command
+
+-- add new shirt of grey color having size M and price 2000 which is available to sell
+
+-- select available articles and colors
+
+-- select all medium shirts
+
+-- select article,price of color white and size L 
+
+-- find article with min price
+
+-- find article with max price
+
+-- find 2nd highest price article
+
+-- find 3rd lowest price article
+
+-- find articles withi care not available in stock
+
+-- find article and total price belongs to that article 
+
+-- update all shirt size to L
+
+-- update price of the shirt to 0 if not available into the stock
+
+-- delete all articles if not available
+
+-- delete jeans whose price is less than 2500
 
 
  
