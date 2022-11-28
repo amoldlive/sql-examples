@@ -409,7 +409,7 @@ SELECT * FROM employee  LIMIT 5;
 select * from employee where salary >30000 and address ='Mumbai';
 
 # find the list of Amazon employees whose salary is less than 30000 
-select * from employee where salary <30000 and organization ='Amazon';
+select * from employee where organization ='Amazon' and salary <30000 ;
 
 # find the list of Amazon employees whose salary is less than 30000 and working is STAFF department 
 select * from employee where salary <30000 and organization ='Amazon' and dept='STAFF';
@@ -426,31 +426,30 @@ select * from employee where salary <30000 or organization ='Amazon' or dept='ST
 
 #************** AND/OR **************************************
 # find the list of  employees whose salary is less than 30000 and working department is HR or IT 
-select * from employee where salary <30000 and dept =('HR' or  'IT');
+select * from employee where  salary<30000 and  ( dept='HR' or dept='IT' ) ;
+
 
 # find the list of  employees whose salary is greater than 30000 and working with Amazon Or Google 
-select * from employee where salary >30000 and organization =('Amazon' or 'Google');
+select * from employee where salary >30000 and (organization ='Amazon' or organization ='Google');
 
 
 #************** in**************************************
 #find the list of employees working in Amazon Google Microsoft
 select * from employee where organization='Amazon';
 
-select * from employee where organization =('Amazon' and 'Google' and 'Microsoft');
-
 select * from employee where organization in ('Amazon' , 'Google' , 'Microsoft');
 
 select * from employee where organization in ( 'Google');
 
 #************** AS**************************************
-#display id,name,Salary of enployee and employee_id,employee_name , employee_salary
+#display id,name,Salary of enployee as employee_id,employee_name , employee_salary
 select id ,name ,salary from employee;
 
-#select id as employee_id,name as employee_name,salary as employee_salary from employee;
+select id as employee_id,name as employee_name,salary as employee_salary from employee;
 
-#select id  employee_id,name  employee_name,salary  employee_salary from employee;
+select id  employee_id,name  employee_name,salary  employee_salary from employee;
 
-#select id  employee_id,name  employee_name,salary  employee_salary from employee emp where emp.id =2;
+select id  employee_id,name  employee_name,salary  employee_salary from employee emp where emp.id =2;
 
 
 #*******************Order By************************************
@@ -458,6 +457,8 @@ select id ,name ,salary from employee;
 
 #order by asc /desc 
 select * from employee e order by name ;
+
+select * from employee e order by name asc;
 
 select * from employee e order by address ASC;
 
@@ -470,6 +471,8 @@ select id,name,salary from employee e order by 2 ASC;
 select id,name,salary from employee e order by 2 desc;
 
 #order by multi column
+select * from employee e order by address ;
+
 select * from employee e order by address,name ;
 
 select * from employee e order by address,name desc;
@@ -485,3 +488,7 @@ select address , count(name) as employee_count from employee group by address;
 
 select address , count(name) as employee_count from employee group by address having  count(name)<5;
 
+
+
+
+ 
