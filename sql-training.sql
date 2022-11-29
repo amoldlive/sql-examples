@@ -621,5 +621,240 @@ insert into cloaths
 
 -- delete jeans whose price is less than 2500
 
+#***************** constraints ********************************
+/*
+ * Not null
+ * unique
+ * primary key 
+ * default
+ * check
+ * foreign key
+ * composite key
+ * */
+
+#***************** Not Null ********************************
+drop table person;
+
+create table person(
+	id int not null,
+	firstName varchar(20) not null,
+	lastName varchar(20) not null,
+	age int not null
+);
+
+desc person;
+
+insert into person values(1,'virat','kohli',null);
+
+insert into person values(1,'virat',null,40);
+
+insert into person values(1,'virat','kohli',40);
+
+select * from person;
+
+
+#*****************Unique ********************************
+
+drop table person;
+
+create table person(
+	id int not null unique,
+	firstName varchar(20) not null,
+	lastName varchar(20) not null,
+	age int not null
+);
+
+desc person ;
+
+insert into person values(1,'virat','kohli',40);
+
+insert into person values(1,'virat','kohli',40);
+
+insert into person values(2,'virat','kohli',40);
+
+select * from person;
+
+#*****************primary key ->  not null + unique ********************************
+
+drop table person;
+
+create table person(
+	id int primary key,
+	firstName varchar(20) not null,
+	lastName varchar(20) not null,
+	age int not null
+);
+
+desc person;
+
+insert into person values(1,'virat','kohli',40);
+
+insert into person values(1,'virat','kohli',40);
+
+insert into person values(2,'virat','kohli',40);
+
+select * from person;
+
+#primary key -way 2
+drop table person;
+
+create table person(
+	id int,
+	firstName varchar(20) not null,
+	lastName varchar(20) not null,
+	age int not null,
+	primary key(id)
+);
+
+desc person;
+
+insert into person values(1,'virat','kohli',40);
+
+insert into person values(1,'virat','kohli',40);
+
+insert into person values(2,'virat','kohli',40);
+
+select * from person;
+
+#primary Key-way 3
+drop table person;
+
+create table person(
+	id int,
+	firstName varchar(20) not null,
+	lastName varchar(20) not null,
+	age int not null
+);
+
+ALTER TABLE person  add primary key(id);  
+
+desc person;
+
+insert into person values(1,'virat','kohli',40);
+
+insert into person values(1,'virat','kohli',40);
+
+insert into person values(2,'virat','kohli',40);
+
+select * from person;
+
+
+#*****************Composite Key ********************************
+drop table person;
+
+create table person(
+	id int,
+	firstName varchar(20) not null,
+	lastName varchar(20) not null,
+	age int not null,	
+	primary key(id,firstName)
+);
+
+desc person;
+
+insert into person values(1,'virat','kohli',40);
+
+insert into person values(1,'virat','kohli',40);
+
+insert into person values(2,'virat','kohli',40);
+
+select * from person;
+
+
+#*****************Default ********************************
+drop table person;
+
+create table person(
+	id int primary key,
+	firstName varchar(20) not null,
+	lastName varchar(20) not null,
+	age int not null default 20
+);
+
+insert into person(id,firstName,lastName) values(2,'virat','kohli');
+
+select * from person;
+
+
+#*****************Auto Increment ********************************
+drop table person;
+
+create table person(
+	id int primary key auto_increment ,
+	firstName varchar(20) not null,
+	lastName varchar(20) not null,
+	age int not null default 20
+);
+
+insert into person(firstName,lastName,age) values('virat','kohli',45);
+
+insert into person(firstName,lastName,age) values('Rahul','Sharma',38);
+
+select * from person;
+
+
+#*****************Check ********************************
+drop table person;
+
+create table person(
+	id int primary key auto_increment ,
+	firstName varchar(20) not null,
+	lastName varchar(20) not null,
+	age int not null check (age>18)
+);
+
+insert into person(firstName,lastName,age) values('virat','kohli',20);
+
+insert into person(firstName,lastName,age) values('Rahul','Sharma',25);
+
+insert into person(firstName,lastName,age) values('Tejas','Varma',10);
+
+select * from person;
+
+
+#*****************Foreign Key ********************************
+#TODO : Understand Normalization and ACID Property
+
+drop table vaccination;
+
+create table vaccination(
+	v_id int primary key auto_increment, 
+	v_name varchar(100),
+	v_entry_date datetime,
+	v_ex_date datetime
+);
+
+#SELECT NOW();
+
+#select CURRENT_TIMESTAMP();
+
+
+insert into vaccination(v_name,v_entry_date,v_ex_date) values('Co-Vaxin',now() ,'2035-11-27 17:05:00');
+
+insert into vaccination(v_name,v_entry_date,v_ex_date) values('Covishield',now() ,'2035-11-27 17:05:00');
+
+insert into vaccination(v_name,v_entry_date,v_ex_date) values('?',now() ,'2035-11-27 17:05:00');
+
+select * from vaccination;
+
+drop table person;
+
+create table person(
+	id int primary key auto_increment ,
+	firstName varchar(20) not null,
+	lastName varchar(20) not null,
+	age int not null,
+	v_id int ,
+	foreign key(v_id) references vaccination(v_id)
+);
+
+
+insert into person (firstName ,lastName , age , v_id)
+values ('Rahul','Sharma',20,1);
+
+select * from person p ;
+
+insert into person (firstName ,lastName , age , v_id)
+values ('Rahul','Sharma',20,10);
 
  
