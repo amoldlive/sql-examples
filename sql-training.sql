@@ -811,52 +811,6 @@ insert into person(firstName,lastName,age) values('Tejas','Varma',10);
 select * from person;
 
 
-#*****************Foreign Key ********************************
-#TODO : Understand Normalization and ACID Property
-
-drop table vaccination;
-
-create table vaccination(
-	v_id int primary key auto_increment, 
-	v_name varchar(100),
-	v_entry_date datetime,
-	v_ex_date datetime
-);
-
-#SELECT NOW();
-
-#select CURRENT_TIMESTAMP();
-
-
-insert into vaccination(v_name,v_entry_date,v_ex_date) values('Co-Vaxin',now() ,'2035-11-27 17:05:00');
-
-insert into vaccination(v_name,v_entry_date,v_ex_date) values('Covishield',now() ,'2035-11-27 17:05:00');
-
-insert into vaccination(v_name,v_entry_date,v_ex_date) values('?',now() ,'2035-11-27 17:05:00');
-
-select * from vaccination;
-
-drop table person;
-
-create table person(
-	id int primary key auto_increment ,
-	firstName varchar(20) not null,
-	lastName varchar(20) not null,
-	age int not null,
-	v_id int ,
-	foreign key(v_id) references vaccination(v_id)
-);
-
-
-insert into person (firstName ,lastName , age , v_id)
-values ('Rahul','Sharma',20,1);
-
-select * from person p ;
-
-insert into person (firstName ,lastName , age , v_id)
-values ('Rahul','Sharma',20,10);
-
-
 
 #*****************String Function ********************************
 
@@ -1115,5 +1069,50 @@ FROM people;
 ##TODO - refer below for more date time function details
 #https://dev.mysql.com/doc/refman/5.7/en/date-and-time-functions.html#function_current-timestamp
 
+#*****************Foreign Key ********************************
+#TODO : Understand Normalization and ACID Property
+
+drop table vaccination;
+
+create table vaccination(
+	v_id int primary key auto_increment, 
+	v_name varchar(100),
+	v_entry_date datetime,
+	v_ex_date datetime
+);
+
+#SELECT NOW();
+
+#select CURRENT_TIMESTAMP();
+
+
+insert into vaccination(v_name,v_entry_date,v_ex_date) values('Co-Vaxin',now() ,'2035-11-27 17:05:00');
+
+insert into vaccination(v_name,v_entry_date,v_ex_date) values('Covishield',now() ,'2035-11-27 17:05:00');
+
+insert into vaccination(v_name,v_entry_date,v_ex_date) values('?',now() ,'2035-11-27 17:05:00');
+
+select * from vaccination;
+
+drop table person;
+
+create table person(
+	id int primary key auto_increment ,
+	firstName varchar(20) not null,
+	lastName varchar(20) not null,
+	age int not null,
+	v_id int ,
+	foreign key(v_id) references vaccination(v_id)
+);
+
+
+insert into person (firstName ,lastName , age , v_id)
+values ('Rahul','Sharma',20,1);
+
+select * from person p ;
+
+insert into person (firstName ,lastName , age , v_id)
+values ('Rahul','Sharma',20,10);
 
 #*****************Joins ********************************
+
