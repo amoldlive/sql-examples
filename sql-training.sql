@@ -539,7 +539,9 @@ select * from employee where salary =(select max(salary) from employee e);
 select * from employee where salary <(select max(salary) from employee e) order by salary desc limit 1;
 
 #find employee with 3rd highest salary
-SELECT *, ROW_NUMBER() OVER(order by salary desc) AS row_num  FROM employee ;  
+SELECT *, ROW_NUMBER() OVER(order by salary desc) AS row_num  FROM employee ;
+
+SELECT * from (select *, ROW_NUMBER() OVER(order by salary desc) AS row_num  FROM employee ) emp where row_num=1;
 
 #find employee with 3rd lowest salary
 #find employee with 2nd highest salary less than 70000
@@ -554,8 +556,15 @@ select * from employee e ;
 
 select name ,count(name) from employee e group by name having count(name)>1;
 
-
 #delete duplicate records
+SELECT	id, name,     ROW_NUMBER() OVER ( PARTITION BY name ORDER BY name) AS row_num  FROM employee e ;
+
+select * from ( select  id,name,  ROW_NUMBER() OVER ( PARTITION BY name ORDER BY name) AS row_num  FROM employee)  emp where emp.row_num>1 ;
+
+select id from ( select  id,name,  ROW_NUMBER() OVER ( PARTITION BY name ORDER BY name) AS row_num  FROM employee)  emp where emp.row_num>1 ;
+
+
+delete from employee where id in (select id from ( select  id,name,  ROW_NUMBER() OVER ( PARTITION BY name ORDER BY name) AS row_num  FROM employee)  emp where emp.row_num>1 );
 
 #***************** CRUD Excersise ********************************
 
