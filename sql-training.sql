@@ -499,11 +499,14 @@ select * from employee e ;
 
 update employee set phone_number ='9874589645' where id=4 and name ='Neha sharma';
 
+#multi column update
+update employee set phone_number ='9874589645', salary=0 where id=4 and name ='Neha sharma';
+
 
 #***************** Delete ********************************
 delete  from employee where id=10;
 
-select * from employee e ;
+select * from employee e where id=10 ;
  
 #below query will delete all the data from employee table
 # delete  from employee; 
@@ -525,31 +528,42 @@ ORDER BY RAND() LIMIT 1;
 
 
 #***************** Sub Queries ********************************
-
-select *from employee e ;
 #find employee with highest salary 
-select *from employee e order by salary desc limit 1;
+select * from employee order by salary desc limit 1;
+
+select * from employee where salary =(select max(salary) from employee e);
 
 #find employee with 2nd highest salary
-select *from employee e where salary<(select max(salary) from employee) order by salary desc limit 1;
+select * from employee where salary <(select max(salary) from employee e) order by salary desc limit 1;
 
-#2nd way
-SELECT *, ROW_NUMBER() OVER(order by salary desc) AS row_num  FROM employee e ; 
+#find employee with 3rd highest salary
+SELECT *, ROW_NUMBER() OVER(order by salary desc) AS row_num  FROM employee ;
 
-#assignment
+SELECT * from (select *, ROW_NUMBER() OVER(order by salary desc) AS row_num  FROM employee ) emp where row_num=1;
+
 #find employee with 3rd lowest salary
-
 #find employee with 2nd highest salary less than 70000
-
 
 #find dupllicate records
 INSERT INTO employee values
 (11,'Rohit Sharma' , 'Nagpur', '8945689564' ,'abc@gmail.com',44000.56,'HR',1,'Google'),
 (12,'Ameya Sawant' , 'Delhi', '1234567890' ,'cde@gmail.com',50000,'HR',1,'Google');
 
+
 select * from employee e ;
 
-select name ,count(name)  from employee group by name having count(name)>1;
+select name ,count(name) from employee e group by name having count(name)>1;
+
+#delete duplicate records
+SELECT	id, name,     ROW_NUMBER() OVER ( PARTITION BY name ORDER BY name) AS row_num  FROM employee e ;
+
+select * from ( select  id,name,  ROW_NUMBER() OVER ( PARTITION BY name ORDER BY name) AS row_num  FROM employee)  emp where emp.row_num>1 ;
+
+select id from ( select  id,name,  ROW_NUMBER() OVER ( PARTITION BY name ORDER BY name) AS row_num  FROM employee)  emp where emp.row_num>1 ;
+
+
+delete from employee where id in (select id from ( select  id,name,  ROW_NUMBER() OVER ( PARTITION BY name ORDER BY name) AS row_num  FROM employee)  emp where emp.row_num>1 );
+
 
 #***************** CRUD Excersise ********************************
 
