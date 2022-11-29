@@ -526,13 +526,30 @@ ORDER BY RAND() LIMIT 1;
 
 #***************** Sub Queries ********************************
 
+select *from employee e ;
 #find employee with highest salary 
+select *from employee e order by salary desc limit 1;
+
 #find employee with 2nd highest salary
+select *from employee e where salary<(select max(salary) from employee) order by salary desc limit 1;
+
+#2nd way
+SELECT *, ROW_NUMBER() OVER(order by salary desc) AS row_num  FROM employee e ; 
+
+#assignment
 #find employee with 3rd lowest salary
+
 #find employee with 2nd highest salary less than 70000
 
-#find dupllicate records
 
+#find dupllicate records
+INSERT INTO employee values
+(11,'Rohit Sharma' , 'Nagpur', '8945689564' ,'abc@gmail.com',44000.56,'HR',1,'Google'),
+(12,'Ameya Sawant' , 'Delhi', '1234567890' ,'cde@gmail.com',50000,'HR',1,'Google');
+
+select * from employee e ;
+
+select name ,count(name)  from employee group by name having count(name)>1;
 
 #***************** CRUD Excersise ********************************
 
@@ -953,7 +970,7 @@ select REPLACE('cheese bread coffee milk', ' ', ' and ');
  
 SELECT REPLACE(title, 'e ', '3') FROM books;
  
-SELECT REPLACE(title, ' ', '-') FROM books;
+SELECT REPLACE(title, ' ', '-') as newtitle FROM books;
 
 
 #reverse
@@ -965,13 +982,13 @@ SELECT REVERSE(author_fname) FROM books;
  
 SELECT CONCAT('woof', REVERSE('woof'));
  
-SELECT CONCAT(author_fname, REVERSE(author_fname)) FROM books;
+SELECT CONCAT(author_fname, '  ' ,REVERSE(author_fname)) FROM books;
 
 
 #length
-SELECT CHAR_LENGTH('Hello World');
+SELECT CHAR_LENGTH(' Hello World ');
  
-SELECT CHAR_LENGTH(title) as length, title FROM books;
+SELECT title , CHAR_LENGTH(title) as length  FROM books;
  
 SELECT author_lname, CHAR_LENGTH(author_lname) AS 'length' FROM books;
  
@@ -1015,7 +1032,7 @@ SELECT TRIM('  pickle  ');
 -- replace spaces in titles with ->
 -- print name and reverse of the name
 -- print book title and length of each title
--- print short title , author , quantity
+-- print short title , author , quantity #titlelength-> 10
 
 
 #*****************SQL Injection ********************************
