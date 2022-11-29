@@ -501,11 +501,14 @@ select * from employee e ;
 
 update employee set phone_number ='9874589645' where id=4 and name ='Neha sharma';
 
+#multi column update
+update employee set phone_number ='9874589645', salary=0 where id=4 and name ='Neha sharma';
+
 
 #***************** Delete ********************************
 delete  from employee where id=10;
 
-select * from employee e ;
+select * from employee e where id=10 ;
  
 #below query will delete all the data from employee table
 # delete  from employee; 
@@ -527,14 +530,32 @@ ORDER BY RAND() LIMIT 1;
 
 
 #***************** Sub Queries ********************************
-
 #find employee with highest salary 
+select * from employee order by salary desc limit 1;
+
+select * from employee where salary =(select max(salary) from employee e);
+
 #find employee with 2nd highest salary
+select * from employee where salary <(select max(salary) from employee e) order by salary desc limit 1;
+
+#find employee with 3rd highest salary
+SELECT *, ROW_NUMBER() OVER(order by salary desc) AS row_num  FROM employee ;  
+
 #find employee with 3rd lowest salary
 #find employee with 2nd highest salary less than 70000
 
 #find dupllicate records
+INSERT INTO employee values
+(11,'Rohit Sharma' , 'Nagpur', '8945689564' ,'abc@gmail.com',44000.56,'HR',1,'Google'),
+(12,'Ameya Sawant' , 'Delhi', '1234567890' ,'cde@gmail.com',50000,'HR',1,'Google');
 
+
+select * from employee e ;
+
+select name ,count(name) from employee e group by name having count(name)>1;
+
+
+#delete duplicate records
 
 #***************** CRUD Excersise ********************************
 
@@ -542,7 +563,7 @@ create database - mycart
 
 create table cloaths
 
-cloathid(primary key)  , article , color  , size , price - default 0 , available
+cloathid primary key  , article , color  , size , price  , available
 
 
 insert into cloaths
