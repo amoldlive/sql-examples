@@ -1072,7 +1072,6 @@ FROM people;
 #*****************Foreign Key ********************************
 #TODO : Understand Normalization and ACID Property
 
-
 use mydb;
 
 CREATE TABLE customers (
