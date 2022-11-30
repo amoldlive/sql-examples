@@ -543,13 +543,15 @@ SELECT *, ROW_NUMBER() OVER(order by salary desc) AS row_num  FROM employee ;
 
 SELECT * from (select *, ROW_NUMBER() OVER(order by salary desc) AS row_num  FROM employee ) emp where row_num=1;
 
+ SELECT * from (select *, ROW_NUMBER() OVER(order by salary desc) AS row_num  FROM employee) emp  where emp.row_num=3;
+
 #find employee with 3rd lowest salary
 #find employee with 2nd highest salary less than 70000
 
 #find dupllicate records
 INSERT INTO employee values
-(11,'Rohit Sharma' , 'Nagpur', '8945689564' ,'abc@gmail.com',44000.56,'HR',1,'Google'),
-(12,'Ameya Sawant' , 'Delhi', '1234567890' ,'cde@gmail.com',50000,'HR',1,'Google');
+(13,'Rohit Sharma' , 'Nagpur', '8945689564' ,'abc@gmail.com',44000.56,'HR',1,'Google'),
+(14,'Ameya Sawant' , 'Delhi', '1234567890' ,'cde@gmail.com',50000,'HR',1,'Google');
 
 
 select * from employee e ;
@@ -557,12 +559,13 @@ select * from employee e ;
 select name ,count(name) from employee e group by name having count(name)>1;
 
 #delete duplicate records
+select * from employee e2 where id in (1,2,11,12);
+
 SELECT	id, name,     ROW_NUMBER() OVER ( PARTITION BY name ORDER BY name) AS row_num  FROM employee e ;
 
 select * from ( select  id,name,  ROW_NUMBER() OVER ( PARTITION BY name ORDER BY name) AS row_num  FROM employee)  emp where emp.row_num>1 ;
 
 select id from ( select  id,name,  ROW_NUMBER() OVER ( PARTITION BY name ORDER BY name) AS row_num  FROM employee)  emp where emp.row_num>1 ;
-
 
 delete from employee where id in (select id from ( select  id,name,  ROW_NUMBER() OVER ( PARTITION BY name ORDER BY name) AS row_num  FROM employee)  emp where emp.row_num>1 );
 
@@ -636,7 +639,28 @@ insert into cloaths
 drop table person;
 
 create table person(
-	id int not null,
+	id int,
+	firstName varchar(20) ,
+	lastName varchar(20) ,
+	age int 
+);
+
+desc person;
+
+insert into person values(1,null,null,null);
+
+select * from person;
+
+
+insert into person values(null,null,null,null);
+
+select * from person;
+
+drop table person;
+
+
+create table person(
+	id int,
 	firstName varchar(20) not null,
 	lastName varchar(20) not null,
 	age int not null
