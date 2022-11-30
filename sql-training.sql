@@ -660,7 +660,7 @@ drop table person;
 
 
 create table person(
-	id int,
+	id int not null,
 	firstName varchar(20) not null,
 	lastName varchar(20) not null,
 	age int not null
@@ -676,6 +676,9 @@ insert into person values(1,'virat','kohli',40);
 
 select * from person;
 
+insert into person values(1,'virat','kohli',40);
+
+select * from person;
 
 #*****************Unique ********************************
 
@@ -782,6 +785,8 @@ insert into person values(1,'virat','kohli',40);
 
 insert into person values(2,'virat','kohli',40);
 
+insert into person values(1,'rahul','jain',30);
+
 select * from person;
 
 
@@ -792,7 +797,7 @@ create table person(
 	id int primary key,
 	firstName varchar(20) not null,
 	lastName varchar(20) not null,
-	age int not null default 20
+	age int not null default 0
 );
 
 insert into person(id,firstName,lastName) values(2,'virat','kohli');
