@@ -838,7 +838,8 @@ insert into person(firstName,lastName,age) values('Rahul','Sharma',25);
 
 insert into person(firstName,lastName,age) values('Tejas','Varma',10);
 
-select * from person;
+select * from person where age>18; 
+-- time consume
 
 
 #*****************String Function ********************************
@@ -865,6 +866,8 @@ CREATE TABLE books
 		PRIMARY KEY(book_id)
 	);
  
+desc books;
+
 INSERT INTO books (title, author_fname, author_lname, released_year, stock_quantity, pages)
 VALUES
 ('The Namesake', 'Jhumpa', 'Lahiri', 2003, 32, 291),
@@ -887,13 +890,11 @@ VALUES
 select * from books ;
 
 #concat
-select concat('A','B','C');
+select concat('A','B','C') output;
 
 SELECT CONCAT('pi', 'ckle');
 
 SELECT CONCAT(author_fname,' ', author_lname) as author_fullname  FROM books;
-
-SELECT CONCAT(author_fname,' ', author_lname) AS author_name FROM books;
 
 
 #concat_WS
@@ -920,7 +921,11 @@ SELECT SUBSTRING('Hello World', 9);
  
 #start with last location
 SELECT SUBSTRING('Hello World', -5 );
- 
+
+SELECT SUBSTRING('Hello World', -1 );
+
+SELECT SUBSTRING('Hello World', -3 );
+
 
 SELECT title FROM books;
 
@@ -930,14 +935,15 @@ SELECT SUBSTRING(title, 1, 10) AS 'short title' FROM books;
 
 SELECT SUBSTRING(title, 1, 10) AS 'short title' FROM books where title ='The Amazing Adventures of Kavalier & Clay';
  
+#SUBSTRING /SUBSTR
 SELECT SUBSTR(title, 1, 10) AS 'short title' FROM books;
 
 
 #multi function
 
-select concat('Hello' ,'Wold')
+select concat('Hello' ,'World')
 
-select substring('Hello Wold' , 7);
+select substring('Hello World' , 7);
 
 select concat('Hello' ,substring('Hello Wold' , 7))
 
@@ -955,6 +961,8 @@ FROM books;
 
 
 #Replace
+/*String , spring_part , new_part
+ * */
 SELECT REPLACE('Hello World', 'Hell', '%$#@');
  
 SELECT REPLACE('Hello World', 'l', '7');
@@ -1007,10 +1015,13 @@ SELECT CONCAT('MY FAVORITE BOOK IS ', LOWER(title)) FROM books;
 #INSERT
 #Insert the string Replace the Nthe sixth characters:
 SELECT INSERT('Hello Bobby', 6, 0, 'There'); 
+#HelloThere Bobby
 
 SELECT INSERT('Hello Bobby', 6, 1, 'There'); 
- 
+#HelloThereBobby
+
 SELECT INSERT('Hello Bobby', 6, 2, 'There'); 
+#HelloThereobby
 
 #LEFT RIGHT REPEAT TRIM
 SELECT LEFT('omghahalol!', 3);
@@ -1033,4 +1044,8 @@ SELECT TRIM('  pickle  ');
 
 
 #*****************SQL Injection ********************************
-#SELECT * from EMPLOYEE where id=100 or   1=1  
+SELECT * FROM books;
+
+SELECT * FROM books where book_id=100 or 1=1;
+
+SELECT * from admin where id=100 or   1=1;  
