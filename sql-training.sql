@@ -1044,8 +1044,137 @@ SELECT TRIM('  pickle  ');
 
 
 #*****************SQL Injection ********************************
-SELECT * FROM books;
+use mydb;
 
-SELECT * FROM books where book_id=100 or 1=1;
+CREATE TABLE admin 
+	(
+		id INT primary key auto_increment,
+		user_id varchar(100) not null,
+		password varchar(100) not null
+	);
 
-SELECT * from admin where id=100 or   1=1;  
+
+insert into admin(user_id,password) values('rahul@gmail.com','abcd@123'),
+('priya@gmail.com','abdssdcd@123'),
+('sonam@gmail.com','absdscd@123');
+
+select * from admin;
+
+select * from admin where id=4568 or 1=1 ; 
+
+#*****************Date Playground ********************************
+use mydb;
+
+CREATE TABLE people (
+	name VARCHAR(100),
+    birthdate DATE,
+    birthtime TIME,
+    birthdt DATETIME
+);
+
+select * from people;
+ 
+INSERT INTO people (name, birthdate, birthtime, birthdt)
+VALUES ('Elton', '2000-12-25', '11:00:00', '2000-12-25 11:00:00');
+ 
+INSERT INTO people (name, birthdate, birthtime, birthdt)
+VALUES ('Lulu', '1985-04-11', '9:45:10', '1985-04-11 9:45:10');
+ 
+INSERT INTO people (name, birthdate, birthtime, birthdt)
+VALUES ('Juan', '2020-08-15', '23:59:00', '2020-08-15 23:59:00');
+
+
+SELECT CURTIME();
+SELECT CURDATE();
+SELECT NOW();
+ 
+INSERT INTO people (name, birthdate, birthtime, birthdt)
+VALUES ('Hazel', CURDATE(), CURTIME(), NOW());
+
+select * from people;
+
+SELECT 
+    birthdate,
+    DAY(birthdate),
+    DAYOFWEEK(birthdate),
+    DAYOFYEAR(birthdate)
+FROM people;
+ 
+SELECT 
+    birthdate,
+    MONTHNAME(birthdate),
+    YEAR(birthdate)
+FROM people;
+
+
+SELECT 
+    birthtime,
+    HOUR(birthtime),
+    MINUTE(birthtime)
+FROM people;
+ 
+SELECT 
+    birthdt,
+    MONTH(birthdt),
+    monthname(birthdt), 
+    DAY(birthdt),
+    HOUR(birthdt),
+    MINUTE(birthdt)
+FROM people;
+
+##TODO - refer below for more date time function details
+#https://dev.mysql.com/doc/refman/5.7/en/date-and-time-functions.html
+
+#*****************Foreign Key ********************************
+#TODO : Understand Normalization and ACID Property
+use mydb;
+
+CREATE TABLE customers (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    email VARCHAR(50)
+);
+ 
+CREATE TABLE orders (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    order_date DATE,
+    amount DECIMAL(8,2),
+    customer_id INT,
+    FOREIGN KEY (customer_id) REFERENCES customers(id)
+);
+ 
+INSERT INTO customers (first_name, last_name, email) 
+VALUES ('Boy', 'George', 'george@gmail.com'),
+       ('George', 'Michael', 'gm@gmail.com'),
+       ('David', 'Bowie', 'david@gmail.com'),
+       ('Blue', 'Steele', 'blue@gmail.com'),
+       ('Bette', 'Davis', 'bette@aol.com');
+
+ select * from customers c ;    
+       
+INSERT INTO orders (order_date, amount, customer_id)
+VALUES ('2016-02-10', 99.99, 1),
+       ('2017-11-11', 35.50, 1),
+       ('2014-12-12', 800.67, 2),
+       ('2015-01-03', 12.50, 2),
+       ('1999-04-11', 450.25, 5);
+
+ select * from orders ;    	   
+
+INSERT INTO orders (order_date, amount, customer_id)
+VALUES ('2016-02-10', 99.99, 10);      
+
+INSERT INTO orders (order_date, amount, customer_id)
+VALUES ('2016-02-10', 99.99, 4);      
+
+
+
+SELECT id FROM customers WHERE last_name = 'George';
+
+SELECT * FROM orders WHERE customer_id = 1;
+ 
+ 
+SELECT * FROM orders 
+WHERE customer_id = (SELECT id FROM customers WHERE last_name = 'George');
+ 
