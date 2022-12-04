@@ -1,3 +1,9 @@
+#------------{ SQL }---------------------------
+/**
+ * @Author - Amol Dahwale
+ * @Since - November 2022
+ * @Note - this will explain sql concepts in mysql
+ */
 #************** Database Operation**************************************
 #create database
 #create database <database_name>;
