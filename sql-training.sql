@@ -1221,6 +1221,7 @@ VALUES ('2016-02-10', 99.99, 1),
        ('1999-04-11', 450.25, 8);
 
 select * from customers c ;  
+
 select * from orders ; 
 
 -- To perform a (kind of useless) cross join:
@@ -1237,26 +1238,38 @@ INNER JOIN orders ON orders.customer_id = customers.id;
 SELECT first_name, last_name, order_date, amount FROM customers
 JOIN orders ON orders.customer_id = customers.id;
 
+/*Ambiguous ID*/
+SELECT id,first_name, last_name, order_date, amount FROM customers
+JOIN orders ON orders.customer_id = customers.id;
+
+/*Tablename.columnname*/
 SELECT orders.id,customers.first_name, customers.last_name, orders.order_date, amount FROM customers
 JOIN orders ON orders.customer_id = customers.id;
+
+SELECT customers.id,customers.first_name, customers.last_name, orders.order_date, amount FROM customers
+JOIN orders ON orders.customer_id = customers.id;
+
+/*Alias*/
+SELECT* FROM customers c
+JOIN orders o ON o.customer_id = c.id;
+
 
 SELECT o.id,c.first_name, c.last_name, o.order_date, amount FROM customers c
 JOIN orders o ON o.customer_id = c.id;
 
 /*The order doesn't matter here*/
-
 SELECT * FROM orders
 JOIN customers ON customers.id = orders.customer_id;
 
 
 /*group By with join*/
-
 SELECT 
     first_name, last_name, SUM(amount) AS total
 FROM
     customers
         JOIN
-    orders ON orders.customer_id = customers.id
+    orders 
+ON orders.customer_id = customers.id
 GROUP BY first_name , last_name;
 
 /*order By with join*/
@@ -1265,7 +1278,8 @@ SELECT
 FROM
     customers
         JOIN
-    orders ON orders.customer_id = customers.id
+    orders 
+ON orders.customer_id = customers.id
 GROUP BY first_name , last_name
 order by total desc;
 
