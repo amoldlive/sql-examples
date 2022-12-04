@@ -1139,13 +1139,60 @@ SELECT * FROM orders
 WHERE customer_id = (SELECT id FROM customers WHERE last_name = 'George');
  
 
+desc orders;
+
+#-------------Get Constaints Details of table---------
+SELECT 
+  TABLE_NAME,COLUMN_NAME,CONSTRAINT_NAME, REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME
+FROM
+  INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+WHERE
+  REFERENCED_TABLE_SCHEMA = 'mydb' AND
+  REFERENCED_TABLE_NAME = 'people';
 
 #*****************Join ********************************
+use mydb;
+
+drop table orders;
+drop table customers;
+
+CREATE TABLE customers (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    email VARCHAR(50)
+);
+ 
+CREATE TABLE orders (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    order_date DATE,
+    amount DECIMAL(8,2),
+    customer_id INT
+);
+ 
+INSERT INTO customers (first_name, last_name, email) 
+VALUES ('Boy', 'George', 'george@gmail.com'),
+       ('George', 'Michael', 'gm@gmail.com'),
+       ('David', 'Bowie', 'david@gmail.com'),
+       ('Blue', 'Steele', 'blue@gmail.com'),
+       ('Bette', 'Davis', 'bette@aol.com');
+
+ select * from customers c ;    
+       
+INSERT INTO orders (order_date, amount, customer_id)
+VALUES ('2016-02-10', 99.99, 1),
+       ('2017-11-11', 35.50, 1),
+       ('2014-12-12', 800.67, 2),
+       ('2015-01-03', 12.50, 2),
+       ('1999-04-11', 450.25, 5),
+       ('1999-04-11', 450.25, 8);
+
+select * from orders ; 
+
 -- To perform a (kind of useless) cross join:
 SELECT * FROM customers, orders;
 
--- Our first inner join!
-
+#*****************Inner Join ********************************
 SELECT * FROM customers
 JOIN orders ON orders.customer_id = customers.id;
 
@@ -1155,13 +1202,20 @@ INNER JOIN orders ON orders.customer_id = customers.id;
 
 SELECT first_name, last_name, order_date, amount FROM customers
 JOIN orders ON orders.customer_id = customers.id;
- 
--- The order doesn't matter here:
+
+SELECT orders.id,customers.first_name, customers.last_name, orders.order_date, amount FROM customers
+JOIN orders ON orders.customer_id = customers.id;
+
+SELECT o.id,c.first_name, c.last_name, o.order_date, amount FROM customers c
+JOIN orders o ON o.customer_id = c.id;
+
+/*The order doesn't matter here*/
 
 SELECT * FROM orders
 JOIN customers ON customers.id = orders.customer_id;
 
 
+/*group By with join*/
 
 SELECT 
     first_name, last_name, SUM(amount) AS total
@@ -1169,13 +1223,22 @@ FROM
     customers
         JOIN
     orders ON orders.customer_id = customers.id
-GROUP BY first_name , last_name
-ORDER BY total;
+GROUP BY first_name , last_name;
 
--- Left join!
+/*order By with join*/
+SELECT 
+    first_name, last_name, SUM(amount) AS total
+FROM
+    customers
+        JOIN
+    orders ON orders.customer_id = customers.id
+GROUP BY first_name , last_name
+order by total desc;
+
+#*****************Left Join ********************************
 
 SELECT 
-    first_name, last_name, order_date, amount
+    customers.id,first_name, last_name, order_date, amount
 FROM
     customers
         LEFT JOIN
@@ -1189,9 +1252,11 @@ FROM
         LEFT JOIN
     customers ON orders.customer_id = customers.id;
 	
-	
-	
-	SELECT 
+/*IFNULL Function*/
+select IFNULL(null,0);	
+
+/*using ifnull function*/
+SELECT 
     first_name, 
     last_name, 
     IFNULL(SUM(amount), 0) AS money_spent
@@ -1201,14 +1266,14 @@ FROM
     orders ON customers.id = orders.customer_id
 GROUP BY first_name , last_name;
 
--- Right join!
 
+#*****************Right Join ********************************
 SELECT 
     first_name, last_name, order_date, amount
 FROM
     customers
         RIGHT JOIN
-    orders ON customers.id = orders.customer_
+    orders ON customers.id = orders.customer_id ;
 	
 
 -- On Delete Cascade
