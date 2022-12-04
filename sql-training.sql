@@ -1,3 +1,9 @@
+#------------{ SQL }---------------------------
+/**
+ * @Author - Amol Dahwale
+ * @Since - November 2022
+ * @Note - this will explain sql concepts in mysql
+ */
 #************** Database Operation**************************************
 #create database
 #create database <database_name>;
@@ -409,7 +415,7 @@ SELECT * FROM employee  LIMIT 5;
 select * from employee where salary >30000 and address ='Mumbai';
 
 # find the list of Amazon employees whose salary is less than 30000 
-select * from employee where salary <30000 and organization ='Amazon';
+select * from employee where organization ='Amazon' and salary <30000 ;
 
 # find the list of Amazon employees whose salary is less than 30000 and working is STAFF department 
 select * from employee where salary <30000 and organization ='Amazon' and dept='STAFF';
@@ -426,31 +432,30 @@ select * from employee where salary <30000 or organization ='Amazon' or dept='ST
 
 #************** AND/OR **************************************
 # find the list of  employees whose salary is less than 30000 and working department is HR or IT 
-select * from employee where salary <30000 and dept =('HR' or  'IT');
+select * from employee where  salary<30000 and  ( dept='HR' or dept='IT' ) ;
+
 
 # find the list of  employees whose salary is greater than 30000 and working with Amazon Or Google 
-select * from employee where salary >30000 and organization =('Amazon' or 'Google');
+select * from employee where salary >30000 and (organization ='Amazon' or organization ='Google');
 
 
 #************** in**************************************
 #find the list of employees working in Amazon Google Microsoft
 select * from employee where organization='Amazon';
 
-select * from employee where organization =('Amazon' and 'Google' and 'Microsoft');
-
 select * from employee where organization in ('Amazon' , 'Google' , 'Microsoft');
 
 select * from employee where organization in ( 'Google');
 
 #************** AS**************************************
-#display id,name,Salary of enployee and employee_id,employee_name , employee_salary
+#display id,name,Salary of enployee as employee_id,employee_name , employee_salary
 select id ,name ,salary from employee;
 
-#select id as employee_id,name as employee_name,salary as employee_salary from employee;
+select id as employee_id,name as employee_name,salary as employee_salary from employee;
 
-#select id  employee_id,name  employee_name,salary  employee_salary from employee;
+select id  employee_id,name  employee_name,salary  employee_salary from employee;
 
-#select id  employee_id,name  employee_name,salary  employee_salary from employee emp where emp.id =2;
+select id  employee_id,name  employee_name,salary  employee_salary from employee emp where emp.id =2;
 
 
 #*******************Order By************************************
@@ -458,6 +463,8 @@ select id ,name ,salary from employee;
 
 #order by asc /desc 
 select * from employee e order by name ;
+
+select * from employee e order by name asc;
 
 select * from employee e order by address ASC;
 
@@ -470,6 +477,8 @@ select id,name,salary from employee e order by 2 ASC;
 select id,name,salary from employee e order by 2 desc;
 
 #order by multi column
+select * from employee e order by address ;
+
 select * from employee e order by address,name ;
 
 select * from employee e order by address,name desc;
@@ -484,7 +493,6 @@ select organization , sum(salary) from employee group by organization ;
 select address , count(name) as employee_count from employee group by address;
 
 select address , count(name) as employee_count from employee group by address having  count(name)<5;
-
 
 #TODO - understand the difference - IMP -  where vs having  
 
@@ -541,13 +549,15 @@ SELECT *, ROW_NUMBER() OVER(order by salary desc) AS row_num  FROM employee ;
 
 SELECT * from (select *, ROW_NUMBER() OVER(order by salary desc) AS row_num  FROM employee ) emp where row_num=1;
 
+ SELECT * from (select *, ROW_NUMBER() OVER(order by salary desc) AS row_num  FROM employee) emp  where emp.row_num=3;
+
 #find employee with 3rd lowest salary
 #find employee with 2nd highest salary less than 70000
 
 #find dupllicate records
 INSERT INTO employee values
-(11,'Rohit Sharma' , 'Nagpur', '8945689564' ,'abc@gmail.com',44000.56,'HR',1,'Google'),
-(12,'Ameya Sawant' , 'Delhi', '1234567890' ,'cde@gmail.com',50000,'HR',1,'Google');
+(13,'Rohit Sharma' , 'Nagpur', '8945689564' ,'abc@gmail.com',44000.56,'HR',1,'Google'),
+(14,'Ameya Sawant' , 'Delhi', '1234567890' ,'cde@gmail.com',50000,'HR',1,'Google');
 
 
 select * from employee e ;
@@ -555,15 +565,15 @@ select * from employee e ;
 select name ,count(name) from employee e group by name having count(name)>1;
 
 #delete duplicate records
+select * from employee e2 where id in (1,2,11,12);
+
 SELECT	id, name,     ROW_NUMBER() OVER ( PARTITION BY name ORDER BY name) AS row_num  FROM employee e ;
 
 select * from ( select  id,name,  ROW_NUMBER() OVER ( PARTITION BY name ORDER BY name) AS row_num  FROM employee)  emp where emp.row_num>1 ;
 
 select id from ( select  id,name,  ROW_NUMBER() OVER ( PARTITION BY name ORDER BY name) AS row_num  FROM employee)  emp where emp.row_num>1 ;
 
-
 delete from employee where id in (select id from ( select  id,name,  ROW_NUMBER() OVER ( PARTITION BY name ORDER BY name) AS row_num  FROM employee)  emp where emp.row_num>1 );
-
 
 #***************** CRUD Excersise ********************************
 
@@ -571,7 +581,7 @@ create database - mycart
 
 create table cloaths
 
-cloathid(primary key)  , article , color  , size , price - default 0 , available
+cloathid primary key  , article , color  , size , price  , available
 
 
 insert into cloaths
@@ -635,6 +645,27 @@ insert into cloaths
 drop table person;
 
 create table person(
+	id int,
+	firstName varchar(20) ,
+	lastName varchar(20) ,
+	age int 
+);
+
+desc person;
+
+insert into person values(1,null,null,null);
+
+select * from person;
+
+
+insert into person values(null,null,null,null);
+
+select * from person;
+
+drop table person;
+
+
+create table person(
 	id int not null,
 	firstName varchar(20) not null,
 	lastName varchar(20) not null,
@@ -651,6 +682,9 @@ insert into person values(1,'virat','kohli',40);
 
 select * from person;
 
+insert into person values(1,'virat','kohli',40);
+
+select * from person;
 
 #*****************Unique ********************************
 
@@ -757,6 +791,8 @@ insert into person values(1,'virat','kohli',40);
 
 insert into person values(2,'virat','kohli',40);
 
+insert into person values(1,'rahul','jain',30);
+
 select * from person;
 
 
@@ -767,7 +803,7 @@ create table person(
 	id int primary key,
 	firstName varchar(20) not null,
 	lastName varchar(20) not null,
-	age int not null default 20
+	age int not null default 0
 );
 
 insert into person(id,firstName,lastName) values(2,'virat','kohli');
@@ -808,8 +844,8 @@ insert into person(firstName,lastName,age) values('Rahul','Sharma',25);
 
 insert into person(firstName,lastName,age) values('Tejas','Varma',10);
 
-select * from person;
-
+select * from person where age>18; 
+-- time consume
 
 
 #*****************String Function ********************************
@@ -836,6 +872,8 @@ CREATE TABLE books
 		PRIMARY KEY(book_id)
 	);
  
+desc books;
+
 INSERT INTO books (title, author_fname, author_lname, released_year, stock_quantity, pages)
 VALUES
 ('The Namesake', 'Jhumpa', 'Lahiri', 2003, 32, 291),
@@ -858,13 +896,11 @@ VALUES
 select * from books ;
 
 #concat
-select concat('A','B','C');
+select concat('A','B','C') output;
 
 SELECT CONCAT('pi', 'ckle');
 
 SELECT CONCAT(author_fname,' ', author_lname) as author_fullname  FROM books;
-
-SELECT CONCAT(author_fname,' ', author_lname) AS author_name FROM books;
 
 
 #concat_WS
@@ -891,7 +927,11 @@ SELECT SUBSTRING('Hello World', 9);
  
 #start with last location
 SELECT SUBSTRING('Hello World', -5 );
- 
+
+SELECT SUBSTRING('Hello World', -1 );
+
+SELECT SUBSTRING('Hello World', -3 );
+
 
 SELECT title FROM books;
 
@@ -901,14 +941,15 @@ SELECT SUBSTRING(title, 1, 10) AS 'short title' FROM books;
 
 SELECT SUBSTRING(title, 1, 10) AS 'short title' FROM books where title ='The Amazing Adventures of Kavalier & Clay';
  
+#SUBSTRING /SUBSTR
 SELECT SUBSTR(title, 1, 10) AS 'short title' FROM books;
 
 
 #multi function
 
-select concat('Hello' ,'Wold')
+select concat('Hello' ,'World')
 
-select substring('Hello Wold' , 7);
+select substring('Hello World' , 7);
 
 select concat('Hello' ,substring('Hello Wold' , 7))
 
@@ -926,6 +967,8 @@ FROM books;
 
 
 #Replace
+/*String , spring_part , new_part
+ * */
 SELECT REPLACE('Hello World', 'Hell', '%$#@');
  
 SELECT REPLACE('Hello World', 'l', '7');
@@ -978,10 +1021,13 @@ SELECT CONCAT('MY FAVORITE BOOK IS ', LOWER(title)) FROM books;
 #INSERT
 #Insert the string Replace the Nthe sixth characters:
 SELECT INSERT('Hello Bobby', 6, 0, 'There'); 
+#HelloThere Bobby
 
 SELECT INSERT('Hello Bobby', 6, 1, 'There'); 
- 
+#HelloThereBobby
+
 SELECT INSERT('Hello Bobby', 6, 2, 'There'); 
+#HelloThereobby
 
 #LEFT RIGHT REPEAT TRIM
 SELECT LEFT('omghahalol!', 3);
@@ -1137,19 +1183,8 @@ SELECT * FROM orders WHERE customer_id = 1;
  
 SELECT * FROM orders 
 WHERE customer_id = (SELECT id FROM customers WHERE last_name = 'George');
+
  
-
-desc orders;
-
-#-------------Get Constaints Details of table---------
-SELECT 
-  TABLE_NAME,COLUMN_NAME,CONSTRAINT_NAME, REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME
-FROM
-  INFORMATION_SCHEMA.KEY_COLUMN_USAGE
-WHERE
-  REFERENCED_TABLE_SCHEMA = 'mydb' AND
-  REFERENCED_TABLE_NAME = 'people';
-
 #*****************Join ********************************
 use mydb;
 
@@ -1176,9 +1211,7 @@ VALUES ('Boy', 'George', 'george@gmail.com'),
        ('David', 'Bowie', 'david@gmail.com'),
        ('Blue', 'Steele', 'blue@gmail.com'),
        ('Bette', 'Davis', 'bette@aol.com');
-
- select * from customers c ;    
-       
+     
 INSERT INTO orders (order_date, amount, customer_id)
 VALUES ('2016-02-10', 99.99, 1),
        ('2017-11-11', 35.50, 1),
@@ -1187,6 +1220,7 @@ VALUES ('2016-02-10', 99.99, 1),
        ('1999-04-11', 450.25, 5),
        ('1999-04-11', 450.25, 8);
 
+select * from customers c ;  
 select * from orders ; 
 
 -- To perform a (kind of useless) cross join:
@@ -1234,6 +1268,7 @@ FROM
     orders ON orders.customer_id = customers.id
 GROUP BY first_name , last_name
 order by total desc;
+
 
 #*****************Left Join ********************************
 
