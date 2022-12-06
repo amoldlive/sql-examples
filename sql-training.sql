@@ -1,8 +1,10 @@
 #------------{ SQL }---------------------------
 /**
- * @Author - Amol Dahwale
- * @Since - November 2022
- * @Note - this will explain sql concepts in mysql
+ * @Author ->   Amol Dhawale
+ * @Since ->    December 2022
+ * @Note ->     This will explain sql concepts in mysql
+ * @Contact ->  amoldlive@gmail.com | 7276466779
+ * @Linkedin -> amoldhawale
  */
 #************** Database Operation**************************************
 #create database
@@ -1286,6 +1288,10 @@ order by total desc;
 
 #*****************Left Join ********************************
 
+select * from customers c ;  
+
+select * from orders ; 
+
 SELECT 
     customers.id,first_name, last_name, order_date, amount
 FROM
@@ -1295,16 +1301,30 @@ FROM
  
  
 SELECT 
-    order_date, amount, first_name, last_name
+   orders.id, order_date, amount, customers.id, first_name, last_name
 FROM
     orders
         LEFT JOIN
     customers ON orders.customer_id = customers.id;
 	
 /*IFNULL Function*/
-select IFNULL(null,0);	
+select IFNULL(null,1);
+
+select IFNULL(null,0);
 
 /*using ifnull function*/
+SELECT 
+    first_name, 
+    last_name, 
+    IFNULL(amount, 0) AS amount
+FROM
+    customers
+        LEFT JOIN
+    orders ON customers.id = orders.customer_id
+
+
+
+/*using group by function*/
 SELECT 
     first_name, 
     last_name, 
@@ -1318,16 +1338,66 @@ GROUP BY first_name , last_name;
 
 #*****************Right Join ********************************
 SELECT 
-    first_name, last_name, order_date, amount
+    orders.id ,order_date, amount,orders.customer_id ,first_name, last_name
 FROM
     customers
         RIGHT JOIN
     orders ON customers.id = orders.customer_id ;
 	
 
--- On Delete Cascade
-	
-	CREATE TABLE customers (
+#*****************Cascade Operations ********************************
+/*without cascade operation*/
+
+drop table orders;
+drop table customers;
+
+CREATE TABLE customers (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    email VARCHAR(50)
+);
+ 
+CREATE TABLE orders (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    order_date DATE,
+    amount DECIMAL(8 , 2 ),
+    customer_id INT,
+    FOREIGN KEY (customer_id)
+        REFERENCES customers (id)
+);
+
+INSERT INTO customers (first_name, last_name, email) 
+VALUES ('Boy', 'George', 'george@gmail.com'),
+       ('George', 'Michael', 'gm@gmail.com'),
+       ('David', 'Bowie', 'david@gmail.com'),
+       ('Blue', 'Steele', 'blue@gmail.com'),
+       ('Bette', 'Davis', 'bette@aol.com');
+     
+INSERT INTO orders (order_date, amount, customer_id)
+VALUES ('2016-02-10', 99.99, 1),
+       ('2017-11-11', 35.50, 1),
+       ('2014-12-12', 800.67, 2),
+       ('2015-01-03', 12.50, 2),
+       ('1999-04-11', 450.25, 5);
+
+ SELECT * FROM customers
+JOIN orders ON orders.customer_id = customers.id;
+
+delete from customers where id=1;
+
+delete from orders where customer_id =1
+
+ SELECT * FROM customers
+JOIN orders ON orders.customer_id = customers.id;
+
+/*with cascade operation*/
+
+drop table orders;
+
+drop table customers
+
+CREATE TABLE customers (
     id INT PRIMARY KEY AUTO_INCREMENT,
     first_name VARCHAR(50),
     last_name VARCHAR(50),
@@ -1344,6 +1414,27 @@ CREATE TABLE orders (
         ON DELETE CASCADE
 );
 
+INSERT INTO customers (first_name, last_name, email) 
+VALUES ('Boy', 'George', 'george@gmail.com'),
+       ('George', 'Michael', 'gm@gmail.com'),
+       ('David', 'Bowie', 'david@gmail.com'),
+       ('Blue', 'Steele', 'blue@gmail.com'),
+       ('Bette', 'Davis', 'bette@aol.com');
+     
+INSERT INTO orders (order_date, amount, customer_id)
+VALUES ('2016-02-10', 99.99, 1),
+       ('2017-11-11', 35.50, 1),
+       ('2014-12-12', 800.67, 2),
+       ('2015-01-03', 12.50, 2),
+       ('1999-04-11', 450.25, 5);
+
+ SELECT * FROM customers
+JOIN orders ON orders.customer_id = customers.id;
+
+delete from customers where id=1;
+
+ SELECT * FROM customers
+JOIN orders ON orders.customer_id = customers.id;
 
 
-
+select * from orders;
