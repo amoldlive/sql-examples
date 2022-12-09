@@ -60,7 +60,9 @@ VALUES ('Oil','2022-02-10', 99.99, 1),
 -- FROM tables    
 -- [WHERE conditions];
 
+select  * from customers ;
 
+select  id,first_name ,last_name  from customers ;
 
 create view customers_view1 as
 select id ,first_name ,last_name  from customers ;
@@ -69,8 +71,11 @@ select * from customers_view1 ;
 
 
 create view customers_order_view as
-select customers.id ,customers.first_name ,customers.last_name,orders.order_details ,orders.amount  from customers 
-inner join orders where customers.id =orders.customer_id ;
+select 
+customers.id ,customers.first_name ,customers.last_name,
+orders.order_details ,orders.amount  
+from customers inner join orders 
+where customers.id =orders.customer_id ;
 
 select * from customers_order_view ;
 
@@ -96,7 +101,7 @@ where id in (1,2,3);
 
 select *  from customers_view1;
 
-/*-------------Drop----------------------------------*/
+/*-------------Show Views----------------------------------*/
 
 SHOW FULL TABLES IN advancedb WHERE TABLE_TYPE LIKE 'VIEW';
 
