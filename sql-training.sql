@@ -1312,6 +1312,8 @@ select IFNULL(null,1);
 
 select IFNULL(null,0);
 
+select IFNULL(null,'A');
+
 /*using ifnull function*/
 SELECT 
     first_name, 
@@ -1384,9 +1386,9 @@ VALUES ('2016-02-10', 99.99, 1),
  SELECT * FROM customers
 JOIN orders ON orders.customer_id = customers.id;
 
-delete from customers where id=1;
+delete from customers where id=2;
 
-delete from orders where customer_id =1
+delete from orders where customer_id =2
 
  SELECT * FROM customers
 JOIN orders ON orders.customer_id = customers.id;
@@ -1395,7 +1397,7 @@ JOIN orders ON orders.customer_id = customers.id;
 
 drop table orders;
 
-drop table customers
+drop table customers;
 
 CREATE TABLE customers (
     id INT PRIMARY KEY AUTO_INCREMENT,
@@ -1435,6 +1437,5 @@ delete from customers where id=1;
 
  SELECT * FROM customers
 JOIN orders ON orders.customer_id = customers.id;
-
 
 select * from orders;
