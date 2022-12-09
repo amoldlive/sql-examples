@@ -323,6 +323,7 @@ select avg(salary) from employee;
  * ceil - 81
  */
 
+
 #TODO - refer below link
 #https://dev.mysql.com/doc/refman/8.0/en/aggregate-functions.html
 
@@ -376,9 +377,11 @@ select * from employee e ;
 
 #select * from employee where <columnname> like 'wildcard expression' ;
 
+
 #select employee whose names 2nd character is O 
 SELECT * FROM employee
 WHERE name LIKE '_o%';
+
 
 
 SELECT * FROM employee
@@ -494,7 +497,9 @@ select organization , sum(salary) from employee group by organization ;
 #find count of employee from each city
 select address , count(name) as employee_count from employee group by address;
 
+
 select address , count(name) as employee_count from employee group by address having  count(name)<5;
+
 
 #TODO - understand the difference - IMP -  where vs having  
 
@@ -1312,6 +1317,9 @@ select IFNULL(null,1);
 
 select IFNULL(null,0);
 
+select IFNULL(null,'A');
+
+
 /*using ifnull function*/
 SELECT 
     first_name, 
@@ -1384,9 +1392,15 @@ VALUES ('2016-02-10', 99.99, 1),
  SELECT * FROM customers
 JOIN orders ON orders.customer_id = customers.id;
 
+
 delete from customers where id=1;
 
 delete from orders where customer_id =1
+
+delete from customers where id=2;
+
+delete from orders where customer_id =2
+
 
  SELECT * FROM customers
 JOIN orders ON orders.customer_id = customers.id;
@@ -1395,7 +1409,8 @@ JOIN orders ON orders.customer_id = customers.id;
 
 drop table orders;
 
-drop table customers
+drop table customers;
+
 
 CREATE TABLE customers (
     id INT PRIMARY KEY AUTO_INCREMENT,
@@ -1413,6 +1428,7 @@ CREATE TABLE orders (
         REFERENCES customers (id)
         ON DELETE CASCADE
 );
+
 
 INSERT INTO customers (first_name, last_name, email) 
 VALUES ('Boy', 'George', 'george@gmail.com'),
@@ -1435,6 +1451,7 @@ delete from customers where id=1;
 
  SELECT * FROM customers
 JOIN orders ON orders.customer_id = customers.id;
+
 
 
 select * from orders;
