@@ -113,3 +113,183 @@ DROP VIEW customers_view1;
 DROP VIEW customers_view1;   
 
 DROP VIEW IF EXISTS customers_view1;   
+
+
+#------------Stored Procedures-------------------------------------
+/*A procedure (often called a stored procedure) is a collection of pre-compiled SQL statements stored inside the database.*/
+
+/*Syntax*/
+/*
+DELIMITER $$  
+CREATE PROCEDURE procedure_name [[IN | OUT | INOUT] parameter_name datatype [, parameter datatype]) ]    
+BEGIN    
+    Declaration_section    
+    Executable_section    
+END $$  
+DELIMITER ; 
+*/
+
+select * from customers  ;   
+
+select * from orders;
+
+/* Delimeter  - > default ; */
+DELIMITER delimiter_character
+
+DELIMITER $$ -- channging default delimeter
+ 
+
+/*Syntax --> Creating Simple Procedures*/
+
+DELIMITER $$
+CREATE PROCEDURE stored_procedure_name()
+BEGIN
+  -- statements 
+END $$
+DELIMITER ;  // change it to default
+
+
+/*calling stored procedures */
+
+CALL stored_procedure_name();
+
+
+/*Creating 1st procedure */
+
+DELIMITER $$
+CREATE PROCEDURE customer_sp()
+BEGIN
+  select * from customers;
+END $$
+DELIMITER ;  
+
+/*calling procedures*/
+call customer_sp;
+
+call customer_sp();
+
+
+/*Creating procedure with argument*/
+
+DELIMITER $$
+CREATE PROCEDURE customer_arg_sp(in cust_id int)
+BEGIN
+  select * from customers where id=cust_id;
+END $$
+DELIMITER ;
+
+/*calling procedure with argument*/
+call customer_arg_sp(1);
+
+
+#------------Show Procedures-------------------------------------
+/*Syntax*/
+/*SHOW PROCEDURE STATUS [LIKE 'pattern' | WHERE search_condition]*/
+
+SHOW PROCEDURE STATUS;
+
+SHOW PROCEDURE STATUS like 'cust%';
+
+SHOW PROCEDURE STATUS where db='advancedb';
+
+#------------Alter Stored Procedures-------------------------------------
+/*
+To make such changes, you must drop ad re-create the stored procedure 
+using the DROP PROCEDURE and CREATE PROCEDURE statements.
+*/
+
+
+#------------Removing stored procedure-------------------------------------
+DROP PROCEDURE [IF EXISTS] stored_procedure_name;
+
+DROP PROCEDURE customer_sp;
+
+DROP PROCEDURE customer_sp;
+
+DROP procedure if exists customer_sp;
+
+
+#------------Check stored procedure Defination-------------------------------------
+show create procedure <procedure_name>;
+
+show create procedure customer_arg_sp;
+
+
+#------------Stored Procedure Variable-------------------------------------
+
+DECLARE variable_name datatype(size) [DEFAULT default_value];
+
+/*
+Desclare -> declare variable
+datatype -> data type of the variable
+default -> default value assigned to variable
+*/
+
+/*Assigning variable value*/
+SET variable_name = value;
+
+DECLARE total INT DEFAULT 0;
+SET total = 10;
+
+
+/* Constants */
+SET @counter = 1;
+
+/*Accessing Constants */
+select @counter;
+
+
+#------------Using variables-------------------------------------
+DELIMITER $$
+CREATE PROCEDURE testVariable()
+BEGIN
+	DECLARE a INT DEFAULT 0;
+    DECLARE b INT DEFAULT 0;
+    DECLARE c INT DEFAULT 0;
+    
+    set a=50;
+   	set b=50;
+    set c=a+b;
+    select c;  
+END$$
+DELIMITER ;
+
+call testVariable();
+
+
+
+DELIMITER $$
+CREATE PROCEDURE addition(in num1 int,in num2 int)
+BEGIN
+    DECLARE addition INT DEFAULT 0;
+			
+   	set addition=num1+num2;
+   select addition;  
+END$$
+DELIMITER ;
+
+call addition(5,5);
+
+
+
+DELIMITER $$
+CREATE PROCEDURE getTotalCustomers()
+BEGIN
+    DECLARE totalCustomers INT DEFAULT 0;
+			
+	select count(*) into totalCustomers from customers ;
+	
+   select totalCustomers;  
+END$$
+DELIMITER ;
+
+
+
+call getTotalCustomers(); 
+
+/*Assignment 
+ * -> implement store procedure which can take 2 inputs and perform substraction
+ * * -> implement store procedure which can take 2 inputs and perform multiplication
+ * * -> implement store procedure which can take 5 inputs and perform total /average operation
+ * 
+ * */
