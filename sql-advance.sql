@@ -146,7 +146,7 @@ CREATE PROCEDURE stored_procedure_name()
 BEGIN
   -- statements 
 END $$
-DELIMITER ;  // change it to default
+DELIMITER ;  -- change it to default
 
 
 /*calling stored procedures */
@@ -181,6 +181,7 @@ DELIMITER ;
 /*calling procedure with argument*/
 call customer_arg_sp(1);
 
+call customer_arg_sp(2);
 
 #------------Show Procedures-------------------------------------
 /*Syntax*/
@@ -250,7 +251,9 @@ BEGIN
     set a=50;
    	set b=50;
     set c=a+b;
+   
     select c;  
+   
 END$$
 DELIMITER ;
 
@@ -270,6 +273,9 @@ DELIMITER ;
 
 call addition(5,5);
 
+call addition(5,50);
+
+call addition(15,25);
 
 
 DELIMITER $$
