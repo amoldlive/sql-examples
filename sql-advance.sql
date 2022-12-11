@@ -299,3 +299,223 @@ call getTotalCustomers();
  * * -> implement store procedure which can take 5 inputs and perform total /average operation
  * 
  * */
+
+#------------Parameters-------------------------------------
+[IN | OUT | INOUT] parameter_name datatype[(length)]
+
+/*IN Parameter*/
+
+DELIMITER $$
+CREATE PROCEDURE getOrders(in custId int)
+BEGIN
+
+	select * from orders where customer_id =custId;
+			
+END$$
+DELIMITER ;
+
+call getOrders(1) ;
+
+
+/*OUT Parameter*/
+select sqrt(16);
+
+
+DELIMITER $$
+DROP PROCEDURE IF exists GET_SQRT$$
+CREATE PROCEDURE GET_SQRT(num INT, OUT sqrt_result FLOAT)
+begin
+    SET sqrt_result=SQRT(num);
+END$$
+DELIMITER ;
+
+call GET_SQRT(16,@result);
+
+select @result;
+
+
+/*example 2*/
+DELIMITER $$
+DROP PROCEDURE IF exists cust_count_sp$$
+CREATE PROCEDURE cust_count_sp(OUT cust_count FLOAT)
+begin
+    select count(*) into cust_count from customers;  
+END$$
+DELIMITER ;
+
+call cust_count_sp(@cust_count);
+
+select @cust_count;
+
+
+/*INOUT Parameter*/
+
+DELIMITER $$
+DROP PROCEDURE IF exists mycounter$$
+CREATE PROCEDURE mycounter( INOUT counter INT, IN inc INT )
+BEGIN
+	SET counter = counter + inc;
+END$$
+DELIMITER ;
+
+SET @counter = 1;
+
+select @counter;
+
+CALL mycounter(@counter,1); -- 2
+
+select @counter;
+
+
+CALL mycounter(@counter,1); -- 3
+
+select @counter;
+
+CALL mycounter(@counter,5); -- 8
+
+select @counter;
+
+#------------IF-THEN [IF-ELSE] -------------------------------------
+
+/*
+The IF statement has three forms: 
+	simple IF-THEN statement,
+	IF-THEN-ELSE statement, 
+	and IF-THEN-ELSEIF- ELSE statement.
+*/
+
+
+/*Simple IF-THEN */
+
+/*IF condition THEN 
+   statements;
+END IF;*/
+
+
+DELIMITER $$
+drop procedure if exists testIfThen$$
+create  PROCEDURE testIfThen(IN  switch INT)
+BEGIN
+   if switch=1 then
+   		select "I am in if block";
+   end if;
+END$$
+DELIMITER ;
+
+call testIfThen(1);
+
+
+DELIMITER $$
+drop procedure if exists testIfThen$$
+create  PROCEDURE testIfThen(IN  num INT)
+BEGIN
+   	DECLARE i int;
+   	set i= 10 ;
+   		if num>0 then
+   			set i= i+num;
+   		end if;
+   	select i;	
+END$$
+DELIMITER ;
+
+call testIfThen(1);
+
+call testIfThen(2);
+
+call testIfThen(3);
+
+call testIfThen(4);
+
+/*find is number is positive*/
+DELIMITER $$
+drop procedure if exists checkPositiveNumber$$
+create  PROCEDURE checkPositiveNumber(IN  num INT)
+BEGIN
+   if num>0 then
+   		select concat("Number ",num,' is positive');
+   end if;
+END$$
+DELIMITER ;
+
+call checkPositiveNumber(1);
+
+#------------IF-THEN-ELSE-------------------------------------
+
+/*
+IF condition THEN
+   statements;
+ELSE
+   else-statements;
+END IF;
+*/
+/*find is number is positive or negative*/
+DELIMITER $$
+create  PROCEDURE findNumberState(in num int)
+BEGIN
+   if num>0 then
+   		select concat("Number ",num,' is positive');
+   else
+   		select concat("Number ",num,' is negative');
+   end if;
+END$$
+DELIMITER ;
+
+call findNumberState(3);
+
+call findNumberState(-3);
+
+
+/*get table data on the basis of character*/
+DELIMITER $$
+create  PROCEDURE getData(in dataSelector varchar(1))
+BEGIN
+   if dataSelector='c' || dataSelector='C' then
+   		select * from customers;
+   else
+   		select * from orders;
+   end if;
+END$$
+DELIMITER ;
+
+call getData('c');
+
+call getData('C');
+
+call getData('o');
+
+call getData('a');
+
+
+#------------IF-THEN-ELSEIF-------------------------------------
+
+/*IF condition THEN
+   statements;
+ELSEIF elseif-condition THEN
+   elseif-statements;
+...
+ELSE
+   else-statements;
+END IF;*/
+
+/*find is number is positive , negative or zero*/
+DELIMITER $$
+drop procedure if exists findNumberState$$
+create  PROCEDURE findNumberState(in num int)
+BEGIN
+   if num>0 then
+   		select concat("Number ",num,' is positive');
+   elseif num<0 then
+   		select concat("Number ",num,' is negative');
+   else
+   		select concat("Number ",num,' is zero');
+   end if;
+END$$
+DELIMITER ;
+
+call findNumberState(3);
+
+call findNumberState(-3);
+
+call findNumberState(0);
+
+
