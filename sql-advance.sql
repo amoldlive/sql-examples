@@ -518,4 +518,76 @@ call findNumberState(-3);
 
 call findNumberState(0);
 
+#------------CASE-WHEN-------------------------------------
 
+/*CASE case_value
+   WHEN when_value1 THEN statements
+   WHEN when_value2 THEN statements
+   ...
+   [ELSE else-statements]
+END CASE;*/
+
+drop procedure if exists printDayName;
+
+DELIMITER $$
+create  PROCEDURE printDayName(in dayNum int)
+BEGIN
+  case dayNum
+  	when 1 then
+  		select "Sunday";
+  	when 2 then
+  		select "Monday";
+  	when 3 then
+  		select "Tuesday";
+  	when 4 then
+  		select "Wednesday";
+  	when 5 then
+  		select "Thursday";
+ 	when 5 then
+  		select "Friday";
+  	when 6 then
+  		select "Saturday";
+  	else
+  		select "invalid day number";
+  	end case;  		
+END$$
+DELIMITER ;
+
+call printDayName(7);
+
+/*Assignment  :create case to pring month name on the basis of month number*/
+
+DELIMITER $$
+create  PROCEDURE printAlphabet(in alphabet varchar(1))
+BEGIN
+  case alphabet
+  	when 'a' then
+  		select "This is a";
+  	when 'b' then
+  		select "This is b";
+  	when 'c' then
+  		select "This is c";
+  	else
+  		select "invalid alphabet";
+  	end case;	
+END$$
+DELIMITER ;
+
+call printAlphabet('a');
+
+
+DELIMITER $$
+create  PROCEDURE getMyData(in tableNum int,in inputId int)
+BEGIN
+  case tableNum
+  	when 1 then
+  		select * from customers where id =inputId  ;
+  	when 2 then
+  		select * from orders where id =inputId ;
+  	else
+  		select "invalid table number";
+  	end case;	
+END$$
+DELIMITER ;
+
+call getMyData(2,2);
