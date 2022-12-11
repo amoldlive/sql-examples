@@ -308,9 +308,7 @@ call getTotalCustomers();
 DELIMITER $$
 CREATE PROCEDURE getOrders(in custId int)
 BEGIN
-
-	select * from orders where customer_id =custId;
-			
+	select * from orders where customer_id =custId;			
 END$$
 DELIMITER ;
 
@@ -365,7 +363,6 @@ select @counter;
 CALL mycounter(@counter,1); -- 2
 
 select @counter;
-
 
 CALL mycounter(@counter,1); -- 3
 
