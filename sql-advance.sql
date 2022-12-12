@@ -299,6 +299,11 @@ call getTotalCustomers();
  * * -> implement store procedure which can take 5 inputs and perform total /average operation
  * 
  * */
+#------------Drop All Procedures from DB-------------------------------------
+SELECT
+    CONCAT('DROP ',ROUTINE_TYPE,' `',ROUTINE_SCHEMA,'`.`',ROUTINE_NAME,'`;') as stmt
+FROM information_schema.ROUTINES where ROUTINE_SCHEMA='advancedb';
+
 
 #------------Parameters-------------------------------------
 [IN | OUT | INOUT] parameter_name datatype[(length)]
@@ -314,18 +319,42 @@ DELIMITER ;
 
 call getOrders(1) ;
 
+call getOrders(2) ;
+
+call getOrders(0) ;
 
 /*OUT Parameter*/
+DELIMITER $$
+create procedure addition(in num1 int,in num2 int,out result int)
+begin
+	set result=num1+num2;
+end $$
+DELIMITER ;
+
+set @addresult=0;
+
+call addition(10,12,@addresult);
+
+select @addresult;
+
+call addition(15,12,@addresult);
+
+select @addresult;
+
+
+
 select sqrt(16);
 
 
 DELIMITER $$
 DROP PROCEDURE IF exists GET_SQRT$$
-CREATE PROCEDURE GET_SQRT(num INT, OUT sqrt_result FLOAT)
+CREATE PROCEDURE GET_SQRT(in num INT, OUT sqrt_result FLOAT)
 begin
     SET sqrt_result=SQRT(num);
 END$$
 DELIMITER ;
+
+set @result=0;
 
 call GET_SQRT(16,@result);
 
@@ -340,6 +369,8 @@ begin
     select count(*) into cust_count from customers;  
 END$$
 DELIMITER ;
+
+set @cust_count=0;
 
 call cust_count_sp(@cust_count);
 
@@ -375,10 +406,10 @@ select @counter;
 #------------IF-THEN [IF-ELSE] -------------------------------------
 
 /*
-The IF statement has three forms: 
-	simple IF-THEN statement,
-	IF-THEN-ELSE statement, 
-	and IF-THEN-ELSEIF- ELSE statement.
+	The IF statement has three forms: 
+	1. simple IF-THEN statement,
+	2. IF-THEN-ELSE statement, 
+	3. IF-THEN-ELSEIF- ELSE statement.
 */
 
 
@@ -400,6 +431,11 @@ END$$
 DELIMITER ;
 
 call testIfThen(1);
+
+call testIfThen(0);
+
+call testIfThen(5);
+
 
 
 DELIMITER $$
@@ -435,6 +471,10 @@ END$$
 DELIMITER ;
 
 call checkPositiveNumber(1);
+
+call checkPositiveNumber(2);
+
+call checkPositiveNumber(0);
 
 #------------IF-THEN-ELSE-------------------------------------
 
@@ -494,7 +534,7 @@ ELSE
    else-statements;
 END IF;*/
 
-/*find is number is positive , negative or zero*/
+/*find the number is positive , negative or zero*/
 DELIMITER $$
 drop procedure if exists findNumberState$$
 create  PROCEDURE findNumberState(in num int)
@@ -524,8 +564,7 @@ call findNumberState(0);
    [ELSE else-statements]
 END CASE;*/
 
-drop procedure if exists printDayName;
-
+/*Task - Print name of day*/
 DELIMITER $$
 create  PROCEDURE printDayName(in dayNum int)
 BEGIN
@@ -550,9 +589,13 @@ BEGIN
 END$$
 DELIMITER ;
 
+call printDayName(1);
+
+call printDayName(3);
+
 call printDayName(7);
 
-/*Assignment  :create case to pring month name on the basis of month number*/
+/*Assignment  :create case to print month name on the basis of month number*/
 
 DELIMITER $$
 create  PROCEDURE printAlphabet(in alphabet varchar(1))
@@ -572,6 +615,10 @@ DELIMITER ;
 
 call printAlphabet('a');
 
+call printAlphabet('c');
+
+call printAlphabet('#');
+
 
 DELIMITER $$
 create  PROCEDURE getMyData(in tableNum int,in inputId int)
@@ -587,4 +634,10 @@ BEGIN
 END$$
 DELIMITER ;
 
-call getMyData(2,2);
+call getMyData(1,1);
+
+call getMyData(1,2);
+
+call getMyData(2,1);
+
+call getMyData(2,3);
