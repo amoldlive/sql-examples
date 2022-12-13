@@ -675,6 +675,9 @@ DELIMITER ;
 
 call printNumber();
 
+#---------------------------------------------------------
+
+drop procedure if exists printNumberSkipTillFive;
 
 DELIMITER $$
 create  PROCEDURE printNumberSkipTillFive()
@@ -691,11 +694,15 @@ begin
 	  		end if;
 		  	
   		
-	  	set num=num+1;	  
+	  		set num=num+1;	
+	  
 	  		if num<=5 then
 		  		iterate print_label;
 		  	end if;
-	  	set str=concat(str,num,','); 
+		  
+		  if num<=10 then 
+	  		set str=concat(str,num,',');
+		  end if;	
 	  
   	end loop print_label;
   	select str;
@@ -738,8 +745,8 @@ DELIMITER ;
 call printNumberWhile();
 
 /*Assignment using while : 
- * print 1 to users given number incliding their sum : O/P 1,2,3 | 6
- * print fabonnacci series till users gien number
+ * print 1 to users given number incliding their sum : O/P 1,2,3 | 6   : in -> 5  o/p 1 2 3 4 5 | 15
+ * print fabonnacci series till users gien number 
  * */
 
 #------------Repeat Loop [similar to inverse conditional do-while loop]-------------------------------------
@@ -772,3 +779,6 @@ END$$
 DELIMITER ;
 
 call printNumberRepeat();
+
+
+
