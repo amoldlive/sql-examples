@@ -641,3 +641,134 @@ call getMyData(1,2);
 call getMyData(2,1);
 
 call getMyData(2,3);
+
+
+#------------Loop-------------------------------------
+/*[begin_label:] LOOP
+    statement_list
+    [ leave / iterate ] begin_label
+END LOOP [end_label]*/
+
+#----------break/continue-------------
+# leave label  | Iterate Label
+
+DELIMITER $$
+create  PROCEDURE printNumber()
+begin
+	declare num int;
+	declare str varchar(50);
+	
+	set num=1;
+	set str='';
+
+  	print_label: loop
+	  		if num>10 then
+	  			leave print_label;
+	  		end if;
+  		set str=concat(str,num,','); 
+	  	set num=num+1;	  	
+  	end loop print_label;
+  	select str;
+END$$
+DELIMITER ;
+
+
+call printNumber();
+
+
+DELIMITER $$
+create  PROCEDURE printNumberSkipTillFive()
+begin
+	declare num int;
+	declare str varchar(50);
+	
+	set num=0;
+	set str='';
+
+  	print_label: loop
+	  		if num>10 then
+	  			leave print_label;
+	  		end if;
+		  	
+  		
+	  	set num=num+1;	  
+	  		if num<=5 then
+		  		iterate print_label;
+		  	end if;
+	  	set str=concat(str,num,','); 
+	  
+  	end loop print_label;
+  	select str;
+END$$
+DELIMITER ;
+
+call printNumberSkipTillFive();
+
+
+/*Assignment : 
+ * Print 10 to 1 numbers
+ * Print even numbers between 1 to user given number
+ * Calculate factorial of users gien number
+ * */
+
+#------------While Loop-------------------------------------
+/*[begin_label:] WHILE search_condition DO
+    statement_list
+END WHILE [end_label]*/
+
+drop procedure printNumberWhile;
+
+DELIMITER $$
+create  PROCEDURE printNumberWhile()
+begin
+	declare num int;
+	declare str varchar(50);
+	
+	set num=1;
+	set str='';
+
+  	my_label: while num<=10 do
+  		set str=concat(str,num,','); 
+	  	set num=num+1;	  	
+  	end while my_label;
+  	select str;
+END$$
+DELIMITER ;
+
+call printNumberWhile();
+
+/*Assignment using while : 
+ * print 1 to users given number incliding their sum : O/P 1,2,3 | 6
+ * print fabonnacci series till users gien number
+ * */
+
+#------------Repeat Loop [similar to inverse conditional do-while loop]-------------------------------------
+
+/*[begin_label:] REPEAT
+    statement
+UNTIL search_condition
+END REPEAT [end_label]*/
+
+-- breaks loop when condition gets true
+
+drop procedure printNumberRepeat;
+
+DELIMITER $$
+create  PROCEDURE printNumberRepeat()
+begin
+	declare num int;
+	declare str varchar(50);
+	
+	set num=1;
+	set str='';
+
+  	my_label:Repeat
+  		set str=concat(str,num,','); 
+	  	set num=num+1;
+	 until num>10  -- breaks loop when condition gets true
+  	end repeat my_label;
+  	select str;
+END$$
+DELIMITER ;
+
+call printNumberRepeat();
