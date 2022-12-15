@@ -884,4 +884,229 @@ select @customerDetailsList;
  * */
 
 
+#------------Error Handling [similar to try-catch]-------------------------------------
+/*
+ * When an error occurs inside a stored procedure, 
+ * it is important to handle it appropriately, 
+ * such as continuing or exiting the current code block’s execution, 
+ * and issuing a meaningful error message.
+ */
+
+/*  ----------------------------------------------------------
+ *  DECLARE action HANDLER FOR condition_value statement;
+ *  -----------------------------------------------------------
+ */
+
+/*
+ * If a condition whose value matches the  condition_value ,
+ * MySQL will execute the statement and continue or exit the current code block based on the action .
+ * 
+ * The action accepts one of the following values:
+ * -----------------------------------------------
+ * CONTINUE :  the execution of the enclosing code block ( BEGIN … END ) continues.
+ * EXIT : the execution of the enclosing code block, where the handler is declared, terminates.
+ * 
+ * A MySQL error code.
+ * --------------------
+ * A standard SQLSTATE value. Or it can be an SQLWARNING , NOTFOUND or SQLEXCEPTION condition, 
+ * which is shorthand for the class of SQLSTATE values. 
+ * The NOTFOUND condition is used for a cursor or  SELECT INTO variable_list statement.
+ * 
+ */
+
+
+/* Sample to declare handler */
+DECLARE CONTINUE HANDLER FOR SQLEXCEPTION 
+SET hasError = 1;
+
+
+/* Sample to declare handler */
+DECLARE CONTINUE HANDLER FOR NOT FOUND 
+SET RowNotFound = 1;
+
+/* Sample to declare handler */
+DECLARE CONTINUE HANDLER FOR 1062
+SELECT 'Error, duplicate key occurred';
+
+#SQLState Codes
+#https://dev.mysql.com/doc/connector-j/8.0/en/connector-j-reference-error-sqlstates.html
+
+drop table person ;
+truncate table person;
+create table person(
+	id int,
+	first_name varchar(50),
+	last_name varchar(50),
+	primary key(id,first_name,last_name)
+);
+
+insert into person values(1,'Rahul' ,'Varma');
+
+insert into person values(2,'Soham' ,'Jha');
+
+select * from person ;
+
+insert into person values(1,'Rahul' ,'Varma');
+
+drop procedure if exists InsertPerson;
+
+DELIMITER $$
+CREATE PROCEDURE InsertPerson( IN pid INT, IN pfirst_name varchar(50),    IN plast_name varchar(50))
+BEGIN
+	
+    
+    INSERT INTO person(id,first_name,last_name) VALUES(pid,pfirst_name,plast_name);
+    
+    select concat(id,'-',first_name,'-',last_name) as person_details from person where id=pid;
+   
+END$$
+DELIMITER ;
+
+call InsertPerson(1,'Rohan','Shende');
+
+call InsertPerson(1,'Rohan','Shende');
+
+# [1062] [23000]: Duplicate entry '1-Rohan-Shende' for key 'person.PRIMARY'
+
+#------------------------------------------------------------------
+drop procedure if exists InsertPerson;
+
+DELIMITER $$
+CREATE PROCEDURE InsertPerson(
+    IN pid INT, 
+    IN pfirst_name varchar(50),
+    IN plast_name varchar(50)
+)
+BEGIN
+
+    DECLARE EXIT HANDLER FOR 1062
+    	-- BEGIN
+ 			SELECT CONCAT('My Exception -> Duplicate key ( ',pid,'-',pfirst_name,'-',plast_name,' ) occurred , PLease add valid data ') AS message;
+    	-- END
+    
+    INSERT INTO person(id,first_name,last_name) VALUES(pid,pfirst_name,plast_name);
+    
+    select concat(id,'-',first_name,'-',last_name) as person_details from person where id=pid;
+   
+END$$
+DELIMITER ;
+
+
+call InsertPerson(1,'Rohan','Shende');
+
+
+#------------Raising Errors [similar to throw]-------------------------------------
+
+
+/*
+SIGNAL SQLSTATE | condition_name;
+SET condition_information_item_name_1 = value_1,
+    condition_information_item_name_1 = value_2, etc;
+*/
+
+drop procedure if exists Divide;
+
+DELIMITER $$
+CREATE PROCEDURE Divide(
+	IN numerator INT, 
+	IN denominator INT, 
+	OUT result double
+)
+BEGIN
+		SET result := numerator / denominator;
+end $$
+DELIMITER ;
+
+set @div_result=0;
+
+call Divide(10,2,@div_result);
+
+select @div_result;
+
+call Divide(10,0,@div_result); -- can not divide any number with 0
+
+select @div_result;
+
+#------------------------------------------------------------------
+
+drop procedure Divide;
+
+DELIMITER $$
+CREATE PROCEDURE Divide(
+	IN numerator INT, 
+	IN denominator INT, 
+	OUT result double
+)
+begin
+	IF denominator = 0 then
+	  SIGNAL SQLSTATE '22012'
+      SET MESSAGE_TEXT = 'can not divide by 0', MYSQL_ERRNO = 1365;
+	ELSE
+		SET result := numerator / denominator;
+	END IF;
+end $$
+DELIMITER ;
+
+set @div_result=0;
+
+call Divide(10,2,@div_result);
+
+select @div_result;
+
+call Divide(10,0,@div_result); -- can not divide any number with 0
+
+select @div_result;
+
+#---------------------------------------------------------------------
+drop procedure Divide;
+
+DELIMITER $$
+CREATE PROCEDURE Divide(
+	IN numerator INT, 
+	IN denominator INT, 
+	OUT result double
+)
+begin
+	DECLARE divideByZero CONDITION FOR SQLSTATE '22012';
+
+	IF denominator = 0 then
+	  SIGNAL divideByZero
+      SET MESSAGE_TEXT = 'My ERROR-> can not divide by zero', MYSQL_ERRNO = 1000;
+	ELSE
+		SET result := numerator / denominator;
+	END IF;
+end $$
+DELIMITER ;
+
+set @div_result=0;
+
+call Divide(10,2,@div_result);
+
+select @div_result;
+
+call Divide(10,0,@div_result); -- can not divide any number with 0
+
+select @div_result;
+
+#---------------------------------------------------------------
+
+drop procedure getCustData;
+
+DELIMITER $$
+CREATE PROCEDURE getCustData(in custNum int)
+begin
+	
+	IF custNum = 0 then
+	  SIGNAL sqlstate '23000'
+      SET MESSAGE_TEXT = 'customer ID can not be null / 0', MYSQL_ERRNO = 1000;
+	ELSE
+		select * from customers;
+	END IF;
+end $$
+DELIMITER ;
+
+call getCustData(1);
+
+call getCustData(0);
+
 
