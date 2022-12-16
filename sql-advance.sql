@@ -1436,7 +1436,7 @@ select * from message_details;
 /*
  * Assignment -> 
  * 1. create student table with columns id , first name , last name , marks1 ,marks2 ,marks13 ,marks4 ,marks5 - use procedure to insert data
- * 2. create student_result table with column resultid , studentid , total_marks , avaerage , percentage , result_Status [pass if % >35] - use trigger to insert
+ * 2. create student_result table with column resultid , studentid , total_marks , avaerage , percentage , result_Status [pass/faile] [pass if % >35] - use trigger to insert
  * 
  * */
 #------------------------------------All The Best----------------------------------------------------------
