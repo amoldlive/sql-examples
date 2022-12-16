@@ -1109,4 +1109,202 @@ call getCustData(1);
 
 call getCustData(0);
 
+#------------PROCEDURES RETURNS MULTIPLE VALUES-------------------------------------
+
+select * from customers ;
+
+select * from orders ;
+
+drop procedure if exists getCustomerNameAndOrdersCount;
+
+/*get customer name and order count*/
+DELIMITER $$
+CREATE PROCEDURE getCustomerNameAndOrdersCount(
+	IN custId INT, 
+	out custName varchar(50), 
+	OUT orderCount double
+)
+begin
+	
+	select 
+	concat(first_name,' ',last_name) into custName 
+	from customers where id=custId;
+
+	select 
+	count(id) into orderCount 
+	from orders where customer_id =custId;
+	
+end $$
+DELIMITER ;
+
+set @custName='';
+set @orderCount='';
+
+call getCustomerNameAndOrdersCount(3,@custName,@orderCount);
+
+select @custName,@orderCount;
+
+
+#------------Stored Functions OR Functions-------------------------------------
+
+/*
+ * A stored function is a special kind stored program that returns a single value.
+ * Typically, you use stored functions to encapsulate common formulas or business rules 
+   that are reusable among SQL statements or stored programs.
+ */
+
+/*
+DELIMITER $$
+CREATE FUNCTION function_name(
+    param1,
+    param2,…
+)
+RETURNS datatype
+[NOT] DETERMINISTIC   
+BEGIN
+ -- statements
+END $$
+DELIMITER ;
+*/
+
+/* A deterministic function always returns the same result for the same input parameters 
+ * A non-deterministic function returns different results for the same input parameters.
+ 
+Example :- 
+	DETERMINISTIC - mathematical function
+	non-deterministic - random function
+*/
+
+#------------calling Stored Functions-------------------------------------
+# select functionName();
+
+
+
+DELIMITER $$
+CREATE FUNCTION getAddition(num1 int , num2 int) 
+RETURNS int
+DETERMINISTIC
+BEGIN
+    DECLARE additionResult int;
+		set additionResult=num1+num2;			
+	RETURN (additionResult);
+END$$
+DELIMITER ;
+
+select getAddition(10,35);
+
+select getAddition(15,35);
+
+#-----------------------------------------
+
+drop function if exists getRandom;
+
+#Need below line to activate non deterministic function creation : default - 0
+SET GLOBAL log_bin_trust_function_creators = 1;
+#SET GLOBAL log_bin_trust_function_creators = 0;
+
+
+DELIMITER $$
+CREATE FUNCTION getRandom(num1 int) 
+RETURNS int
+NOT DETERMINISTIC
+BEGIN
+    DECLARE randomNumber int;
+		select FLOOR(RAND() * (num1 - 1 + 1)) + 1 into 	randomNumber;		
+	RETURN (randomNumber);
+END$$
+DELIMITER ;
+
+
+
+select getRandom(20);
+
+
+#-------------------------------------------------------
+drop function if exists getRecordCount;
+
+DELIMITER $$
+CREATE FUNCTION getRecordCount(tableName varchar(50)) 
+RETURNS int
+DETERMINISTIC
+BEGIN
+    DECLARE recordCount int;
+	
+	if tableName='Customers' or tableName='customers' then
+		select count(id) into recordCount from customers ;
+	elseif tablename='Orders' or tablename='orders' then
+		select count(id) into recordCount from orders ;
+	else
+		set recordCount=0;
+	end if;
+		
+	RETURN (recordCount);
+END$$
+DELIMITER ;
+
+select getRecordCount("orders");
+
+select getRecordCount("customers");
+
+select getRecordCount("other");
+
+#----------------calling function from procedures------------------------------------------
+drop procedure if exists addTwoNumbers;
+
+DELIMITER $$
+create procedure addTwoNumbers(in num1 int, in num2 int)
+begin
+	select getAddition(num1,num2);
+end$$
+DELIMITER ;
+
+
+call addTwoNumbers(10,15);
+
+call addTwoNumbers(20,30);
+
+/**
+ *  functions can be called from procedure  | procedure can not be called from functions
+ */
+
+/*Cant call procedures from function*/
+/*TODO : difference between Procedure vs Function */
+
+
+#------------List all functions-------------------------------------
+SHOW FUNCTION STATUS  WHERE db = 'advancedb';
+
+
+#Removing function
+--------------------------------
+DROP FUNCTION [IF EXISTS] function_name;
+
+DROP FUNCTION IF EXISTS getAddition;
+
+SHOW FUNCTION STATUS  WHERE db = 'advancedb';
+
+
+#------------Index-------------------------------------
+/* MySQL uses indexes to quickly find rows with specific column values. 
+ * Without an index, MySQL must scan the whole table to locate the relevant rows.
+ */
+
+
+#------------Create Index-------------------------------------
+
+CREATE INDEX index_name ON table_name (column_list)
+
+CREATE INDEX idx_cust_id ON customers(id);
+
+CREATE INDEX idx_cust_id_name ON customers(id,first_name);
+
+#------------List Index-------------------------------------
+SHOW INDEXES FROM <table_name>;
+
+SHOW INDEXES FROM customers;
+
+#------------Removing Index-------------------------------------
+DROP INDEX index_name ON table_name
+
+DROP index idx_cust_id_name on customers;
 
