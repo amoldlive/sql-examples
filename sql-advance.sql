@@ -1308,3 +1308,135 @@ DROP INDEX index_name ON table_name
 
 DROP index idx_cust_id_name on customers;
 
+
+#------------TRIGGERS-------------------------------------
+/*
+ *  In MySQL, a trigger is a stored program invoked automatically in response to an event such as 
+ *  insert, update, or delete that occurs in the associated table. 
+ *  For example, you can define a trigger that is invoked automatically before a new row is inserted into a table.
+*/
+
+#------------Create TRIGGERS-------------------------------------
+
+/*
+ CREATE TRIGGER trigger_name
+{BEFORE | AFTER} {INSERT | UPDATE| DELETE }
+ON table_name FOR EACH ROW
+trigger_body;
+*/
+
+/**
+
+trigger-Event	OLD		NEW
+INSERT				No		Yes
+UPDATE				Yes		Yes
+DELETE				Yes		No
+
+**/
+
+/*log update activity of customers table for audit*/
+
+select * from customers;
+
+/*create log table*/
+create table customers_audit(
+	id int primary key auto_increment,
+	custId INT NOT NULL,
+    oldFirstName VARCHAR(50) not NULL,
+	newFirstName VARCHAR(50) NOT NULL,
+    oldLastName VARCHAR(50) NOT NULL,
+	newLastName VARCHAR(50) NOT NULL,     
+	changedat DATETIME DEFAULT now(),
+    action VARCHAR(50) DEFAULT 'update'
+);
+
+
+
+create trigger customers_audit_update
+before update
+on customers for each row
+INSERT INTO 
+customers_audit(
+custId,
+oldFirstName,newFirstName,
+oldLastName,newLastName) 
+values(old.id , old.first_name , new.first_name , old.last_name , new.last_name );
+
+
+update customers set first_name ='SRK' where id=1;
+
+select * from customers;
+
+select * from customers_audit ;
+
+update customers set first_name ='Hardik' where id=2;
+
+update customers set first_name ='Hardik' , last_name ='Pandya' where id=2;
+
+select * from customers;
+
+select * from customers_audit ;
+
+
+#------------SHOW TRIGGERS-------------------------------------
+SHOW TRIGGERS;
+
+#------------DROP TRIGGERS-------------------------------------
+DROP TRIGGER [IF EXISTS] [schema_name.]trigger_name;
+
+DROP TRIGGER customers_audit_update;
+
+DROP TRIGGER IF EXISTS advancedb.customers_audit_update;
+
+
+
+/*Send message to customer once he registers to your domain*/
+
+/*
+ * Design -> 
+ * Register -> insert customer data into customers
+ * 
+ * Send Message -> once data inserted in customers insert message and contact number in message table
+ * 
+ * */
+
+select * from customers ;
+
+#drop table message_details;
+
+create table message_details(
+	id int primary key  auto_increment,
+	customerid int ,
+	emailId varchar(50) ,
+	phone varchar(10),
+	message  varchar(300) default 'Thank you for choosing X Mart , You can call on our helpline number 9999999999 for any kind of issues/request/feedback', 
+	message_status varchar(3) default 'NO'
+);
+
+
+create trigger customers_message_Details
+after insert
+on customers for each row
+INSERT INTO message_details
+(customerid,emailId,phone) 
+values(new.id,new.email,new.phone_number);
+
+
+
+INSERT INTO customers (first_name, last_name, email,phone_number) 
+VALUES ('Varun', 'Sharma', 'vs@gmail.com','7600000001'),
+       ('Pooja', 'Mehra', 'pm@gmail.com','7600000002'),
+       ('Tina', 'Tondon', 'tt@gmail.com','7600000003');
+
+select * from customers c ;
+
+
+select * from message_details;
+
+/*
+ * Assignment -> 
+ * 1. create student table with columns id , first name , last name , marks1 ,marks2 ,marks13 ,marks4 ,marks5 - use procedure to insert data
+ * 2. create student_result table with column resultid , studentid , total_marks , avaerage , percentage , result_Status [pass if % >35] - use trigger to insert
+ * 
+ * */
+#------------------------------------All The Best----------------------------------------------------------
