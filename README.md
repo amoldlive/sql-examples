@@ -1,6 +1,9 @@
 # sql-training
-	This package helps you to understand SL and plsql concepts
-	
+	This package helps you to understand SQL and plsql concepts
+
+# Tools-Details
+	 MYSQL , DBeaver 	
+	 
 # Author-Details
 	Author ->   Amol Dhawale
 	Since ->    December 2022
