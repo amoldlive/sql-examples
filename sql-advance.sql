@@ -878,7 +878,7 @@ select @customerDetailsList;
 /*Assignment :
  * 	get customers phone number and send 'Thank you for contacting with us' message
  * 
- * table message -> column : id autoincrement PK ,phone_number , message , status default yes
+ * table message -> column : id autoincrement PK ,phone_number , message , status default NO
  * 
  * insert into message (phone number , message)
  * */
@@ -932,7 +932,8 @@ SELECT 'Error, duplicate key occurred';
 #https://dev.mysql.com/doc/connector-j/8.0/en/connector-j-reference-error-sqlstates.html
 
 drop table person ;
-truncate table person;
+
+
 create table person(
 	id int,
 	first_name varchar(50),
@@ -981,7 +982,7 @@ BEGIN
 
     DECLARE EXIT HANDLER FOR 1062
     	-- BEGIN
- 			SELECT CONCAT('My Exception -> Duplicate key ( ',pid,'-',pfirst_name,'-',plast_name,' ) occurred , PLease add valid data ') AS message;
+ 			SELECT CONCAT('My Exception -> Duplicate key ( ',pid,'-',pfirst_name,'-',plast_name,' ) occurred , Please add valid data ') AS message;
     	-- END
     
     INSERT INTO person(id,first_name,last_name) VALUES(pid,pfirst_name,plast_name);
@@ -1100,7 +1101,7 @@ begin
 	  SIGNAL sqlstate '23000'
       SET MESSAGE_TEXT = 'customer ID can not be null / 0', MYSQL_ERRNO = 1000;
 	ELSE
-		select * from customers;
+		select * from customers where id=custNum;
 	END IF;
 end $$
 DELIMITER ;
@@ -1338,6 +1339,7 @@ DELETE				Yes		No
 
 select * from customers;
 
+drop table customers_audit;
 /*create log table*/
 create table customers_audit(
 	id int primary key auto_increment,
@@ -1346,11 +1348,13 @@ create table customers_audit(
 	newFirstName VARCHAR(50) NOT NULL,
     oldLastName VARCHAR(50) NOT NULL,
 	newLastName VARCHAR(50) NOT NULL,     
-	changedat DATETIME DEFAULT now(),
+	changedate DATETIME DEFAULT now(),
     action VARCHAR(50) DEFAULT 'update'
 );
 
 
+
+select * from customers_audit;
 
 create trigger customers_audit_update
 before update
@@ -1362,16 +1366,20 @@ oldFirstName,newFirstName,
 oldLastName,newLastName) 
 values(old.id , old.first_name , new.first_name , old.last_name , new.last_name );
 
+# old.column_name 
+#new.column_name
 
-update customers set first_name ='SRK' where id=1;
+select * from customers where id=1;
 
-select * from customers;
+update customers set first_name ='Minal' ,last_name='Sharma' where id=1;
+
+select * from customers where id=1;
 
 select * from customers_audit ;
 
-update customers set first_name ='Hardik' where id=2;
+select * from customers where id=2;
 
-update customers set first_name ='Hardik' , last_name ='Pandya' where id=2;
+update customers set first_name ='Hritik' where id=2;
 
 select * from customers;
 
@@ -1384,9 +1392,9 @@ SHOW TRIGGERS;
 #------------DROP TRIGGERS-------------------------------------
 DROP TRIGGER [IF EXISTS] [schema_name.]trigger_name;
 
-DROP TRIGGER customers_audit_update;
+DROP TRIGGER customers_message_Details;
 
-DROP TRIGGER IF EXISTS advancedb.customers_audit_update;
+DROP TRIGGER IF EXISTS advancedb.customers_message_Details;
 
 
 
@@ -1424,9 +1432,9 @@ values(new.id,new.email,new.phone_number);
 
 
 INSERT INTO customers (first_name, last_name, email,phone_number) 
-VALUES ('Varun', 'Sharma', 'vs@gmail.com','7600000001'),
-       ('Pooja', 'Mehra', 'pm@gmail.com','7600000002'),
-       ('Tina', 'Tondon', 'tt@gmail.com','7600000003');
+VALUES ('John', 'Brian', 'jb@gmail.com','7600000001'),
+       ('Aleksy', 'Casinahas', 'AC@gmail.com','7600000002'),
+       ('Tiago', 'Lopex', 'tl@gmail.com','7600000003');
 
 select * from customers c ;
 
